@@ -39,6 +39,7 @@ export default {
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
+    background-color: #ffffff;
 }
 .happy:active{
     -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
@@ -50,7 +51,7 @@ export default {
     margin-top:8px;
     margin-bottom:2px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    
+    background-color: #ffffff;
 }
 .sad{
     width: 250px;
@@ -63,6 +64,7 @@ export default {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
+    background-color: #ffffff;
 }
 .sad:active{
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
@@ -73,6 +75,6 @@ export default {
 .sad:hover{
     margin-top:38px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    
+    background-color: #ffffff;
 }
 </style>

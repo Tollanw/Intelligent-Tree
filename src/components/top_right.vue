@@ -66,6 +66,7 @@ button{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
+    background-color: #ffffff;
 }
 button:active{
     border:none;
@@ -77,7 +78,7 @@ button:hover{
     margin-top:8px;
     margin-bottom: 2px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    
+    background-color: #ffffff;
 }
 
 
