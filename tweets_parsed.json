@@ -1,0 +1,45 @@
+{"tweets": [{
+  "id": 1,
+  "text": "Hej där, jag är ett träd. På Twitter."
+},
+{
+  "id": 2,
+  "text": "Kom gärna fram till mig på Universeum."
+},
+{
+  "id": 3,
+  "text": "Donald Trump är min bror"
+},
+{
+  "id": 4,
+  "text": "Fotosyntes är gött."
+},
+{
+  "id": 5,
+  "text": "Mitt lösenord är bark 123, hahah."
+}], 
+
+"greetings": [{
+  "id": 1,
+  "text": "Hej människa. Fint väder idag"
+},
+{ "id": 1,
+  "text": "Hej homo sapiens"
+},
+
+{
+  "id": 2,
+  "text": "Hej på dig också"
+},
+{
+  "id": 3,
+  "text": "Hej människa"
+},
+{
+  "id": 4,
+  "text": "Hej! Trevligt att träffas"
+},
+{"id": 5,
+"text": "Tjena kompis"
+}]
+}
