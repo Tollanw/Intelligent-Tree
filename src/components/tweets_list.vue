@@ -2,7 +2,7 @@
     <div class="container">
         <h1>KÖADE TWEETS</h1>
         <button @click="listen">LÄS UPP MENINGAR</button>
-
+        <div class="tweetList">
         
             <div v-for="(t, i) of list" :key="t.id">
               <div class="tweets">
@@ -10,7 +10,7 @@
             </div>
         </div>
         
-
+        </div>
     </div>
 </template>
 
@@ -67,6 +67,11 @@ export default {
     height: 100%;
     text-align: center;
 }
+.tweetList{
+  height:65%;
+  width:100%;
+  overflow: auto;
+}
 .tweets{
     background-color: white;
     padding-top: 0.5px;
@@ -76,6 +81,7 @@ export default {
     margin: auto;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
     margin-top:15px;
+    
 }
 h2{
   font-size: 1.0em;

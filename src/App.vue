@@ -52,7 +52,7 @@ body{
   
   flex-wrap: nowrap;
   background-color: #f1f3f6;
-  height: 640px;
+  height: 550px;
   width: 100%;
 }
 .right{
@@ -69,6 +69,7 @@ body{
   font-size: 0.9em;
   padding-top:20px;
   text-align: center;
+  
 }
 
 

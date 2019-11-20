@@ -21,8 +21,6 @@ export default {
   methods:  {
       listenToPerson(){
           if(this.isRecording == false){
-              console.log("False");
-              console.log(this.isRecording);
               this.isRecording = true;
               this.speech.listen();
               document.getElementById("rec").style.backgroundColor = "crimson";
@@ -31,8 +29,6 @@ export default {
               
           }
           else{
-              console.log("True");
-              console.log(this.isRecording);
               this.isRecording = false;
               this.speech.stopSpeechRecognition();
               document.getElementById("rec").style.backgroundColor = "white";
