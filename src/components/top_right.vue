@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <h1>LYSSNA EFTER RÖST</h1>
-        <button id="play" @click="listenToPerson">SPELA IN</button>
-        <br><br>
-        <span id="message">Resultat</span>
+        <button id="rec" @click="listenToPerson" >SPELA IN</button>
+        <br><br><br>
+        <span id="message">" Resultat "</span>
     </div>
 </template>
 
@@ -20,21 +20,26 @@ export default {
 
   methods:  {
       listenToPerson(){
-          if(this.isRecording==false) {
-            this.isRecording=true;
-            this.speech.listen()
-            document.getElementById("play").style.backgroundColor = "crimson";
-            document.getElementById("play").style.color = "white";
-
+          if(this.isRecording == false){
+              console.log("False");
+              console.log(this.isRecording);
+              this.isRecording = true;
+              this.speech.listen();
+              document.getElementById("rec").style.backgroundColor = "crimson";
+              document.getElementById("rec").style.color = "white";
+              document.getElementById("rec").innerText = "STOPPA ...";
+              
           }
-          else {
-              this.isRecording=false;
-              this.speech.stopSpeechRecognition()
-              document.getElementById("play").style.backgroundColor = "white";
-              document.getElementById("play").style.color = "crimson";
-
-
+          else{
+              console.log("True");
+              console.log(this.isRecording);
+              this.isRecording = false;
+              this.speech.stopSpeechRecognition();
+              document.getElementById("rec").style.backgroundColor = "white";
+              document.getElementById("rec").style.color = "crimson";
+              document.getElementById("rec").innerText = "SPELA IN";
           }
+         
       }
   }
 
@@ -44,7 +49,7 @@ export default {
 <style scoped>
 .container{
     width: 100%;
-    height: 50%;
+    height: 45%;
     text-align: center;
     border-bottom:3px solid #343434;
 }
@@ -57,24 +62,25 @@ button{
     color:crimson;
     width: 250px;
     height: 50px;
-    margin-top: 30px;
+    margin-top: 10px;
     border:none;
-    border-radius: 4px;
+    border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
 }
 button:active{
-    
     border:none;
-    color: #cccccc;
+    color:#cccccc;
     background-color: #eeeeee;
 }
+
 button:hover{
-    margin-top:28px;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    margin-top:8px;
+    margin-bottom: 2px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     
 }
 

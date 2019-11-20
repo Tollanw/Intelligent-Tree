@@ -31,9 +31,9 @@ export default {
 .happy{
     width: 250px;
     height: 50px;
-    margin-top: 30px;
+    margin-top: 10px;
     border:none;
-    border-radius: 4px;
+    border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -47,32 +47,32 @@ export default {
     background-color: #eeeeee;
 }
 .happy:hover{
-    margin-top:28px;
+    margin-top:8px;
     margin-bottom:2px;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     
 }
 .sad{
     width: 250px;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 40px;
     border:none;
-    border-radius: 4px;
+    border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
 }
 .sad:active{
-    -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
 }
 .sad:hover{
-    margin-top:48px;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    margin-top:38px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     
 }
 </style>
