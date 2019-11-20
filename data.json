@@ -1,0 +1,100 @@
+{
+	phrases: [
+		{
+			"index": "1",
+			"mood": "1",
+			"phrase": "Hej, Kul att du kom"
+		},
+		{
+			"index": "2",
+			"mood": "1",
+			"phrase": "Hej, Kul med människor"
+		},
+		{
+			"index": "3",
+			"mood": "1",
+			"phrase": "Tjena"
+		},
+		{
+			"index": "4",
+			"mood": "1",
+			"phrase": "Goddag"
+		},
+		{
+			"index": "5",
+			"mood": "1",
+			"phrase": "Morsning Korsning"
+		},
+		{
+			"index": "6",
+			"mood": "1",
+			"phrase": "Det är rätt chill att vara ett träd"
+		},
+		{
+			"index": "7",
+			"mood": "1",
+			"phrase": "En dag kommer jag bli lika stor som ett hus"
+		},
+		{
+			"index": "8",
+			"mood": "1",
+			"phrase": "Photosyntes är nice"
+		},
+		{
+			"index": "9",
+			"mood": "1",
+			"phrase": "Vet du vad jag sa till taggbuskens? Tagga ner"
+		},
+		{
+			"index": "10",
+			"mood": "2",
+			"phrase": "Ingen har pratat med mig på ett tag"
+		},
+		{
+			"index": "11",
+			"mood": "2",
+			"phrase": "Varför vill ingen prata med mig"
+		},
+		{
+			"index": "12",
+			"mood": "2",
+			"phrase": "Jag trodde att jag hade kompisar"
+		},
+		{
+			"index": "13",
+			"mood": "2",
+			"phrase": "Vill du snälla prata med mig"
+		},
+		{
+			"index": "14",
+			"mood": "2",
+			"phrase": "Jag är uttråkad"
+		},
+		{
+			"index": "15",
+			"mood": "3",
+			"phrase": "Oj vad många människor"
+		},
+		{
+			"index": "16",
+			"mood": "3",
+			"phrase": " jag ber om ursäkt jag är lite nervös"
+		},
+		{
+			"index": "17",
+			"mood": "3",
+			"phrase": "Skulle ni kunna ge mig lite utrymme"
+		},
+		{
+			"index": "18",
+			"mood": "3",
+			"phrase": "Jag behöver andas"
+		},
+		{
+			"index": "19",
+			"mood": "3",
+			"phrase": "Förlåt, jag blir lite stressad ibland"
+		}
+	]
+}
+
