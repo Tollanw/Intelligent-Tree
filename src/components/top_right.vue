@@ -25,7 +25,7 @@ export default {
               this.speech.listen();
               document.getElementById("rec").style.backgroundColor = "crimson";
               document.getElementById("rec").style.color = "white";
-              document.getElementById("rec").innerText = "STOPPA ...";
+              document.getElementById("rec").innerText = "STOPPA INSPELNING";
               
           }
           else{
@@ -71,7 +71,7 @@ button{
 button:active{
     border:none;
     color:#cccccc;
-    background-color: #eeeeee;
+    background-color: crimson;
 }
 
 button:hover{

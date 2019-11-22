@@ -31,11 +31,10 @@ def get_tweets(creds):
                 'date' : status['created_at'],
                 'text' : status['full_text']
             })
-
+        print(output)
         json.dump(output,file)
     #with open("tweets_parsed.json", "r") as file:
         #data = json.load(file)
-        # Specifera först att det är tweets sen vilken "row" och sedan vilken data du vill hämta
         #print(data["tweets"][0]["user"])
         #print(data["tweets"][0]["text"])
 

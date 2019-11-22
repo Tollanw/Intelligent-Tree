@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1>KÖADE TWEETS</h1>
-        <button @click="listen">LÄS UPP MENINGAR</button>
+        <button @click="listen">LÄS UPP</button>
         <div class="tweetList">
             <div class="tweets">
                 <p>" Detta är en hårdkodad placeholder-tweet "</p>
