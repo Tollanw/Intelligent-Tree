@@ -5,8 +5,8 @@ export default class TextToSpeech {
 	constructor() {
 		//options used for the speech synthesis
 		this.options = {
-			rate: 1.1,
-			pitch: 0.3,
+			rate: 1,
+			pitch: 1,
 			voice: ''
 		}
 		this.available_voices = false
@@ -123,8 +123,9 @@ export default class TextToSpeech {
 			//writes to the span with id=message
 			document.getElementById("message").innerHTML = transcript;  
 			if (transcript.toLowerCase().includes('hej') || transcript.toLowerCase().includes('tjena')) {
-				var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
-				talk(greetings);
+				talk("Tjena kompis");
+				//var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
+				//talk(greetings);
 			}
 			else if (transcript.toLowerCase().includes('mamma')) {
 				talk("Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag.");
