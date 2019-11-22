@@ -15,7 +15,9 @@
       </div>
     </div>
     <div class="footer">
-
+       © 2019 - Alexander Al-Hakeem - Albin Becevic - Niklas Paasonen - Lucas Rosvall - Emil Toll Wester - David Wilkins
+      <p/>
+      Chalmers tekniska högskola
     </div>
   </div>
 </template>
@@ -28,7 +30,6 @@ import Moods from './components/bottom_right'
 
 export default {
   name: 'app',
-  
   components: { Top, Tweets_list, Record_voice, Moods }
 }
 </script>
@@ -39,7 +40,7 @@ body{
   margin: 0;
   padding: 0;
   font-family: Nunito;
-  background-color: #343434;
+  background-color: black;
   color: #343434;
   
 }
@@ -51,7 +52,7 @@ body{
   
   flex-wrap: nowrap;
   background-color: #f1f3f6;
-  height: 800px;
+  height: 550px;
   width: 100%;
 }
 .right{
@@ -62,8 +63,14 @@ body{
 }
 .footer{
   width:100%;
-  height:80px;
-  background-color: #343434;
+  height:60px;
+  background-color: black;
+  color:white;
+  font-size: 0.9em;
+  padding-top:20px;
+  text-align: center;
+  
 }
+
 
 </style>

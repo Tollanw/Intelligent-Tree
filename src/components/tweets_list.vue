@@ -2,14 +2,17 @@
     <div class="container">
         <h1>KÖADE TWEETS</h1>
         <button @click="listen">LÄS UPP MENINGAR</button>
-
-        <div class="tweets">
+        <div class="tweetList">
+            <div class="tweets">
+                <p>" Detta är en hårdkodad placeholder-tweet "</p>
+              </div>
             <div v-for="(t, i) of list" :key="t.id">
+              <div class="tweets">
                 <p v-bind:class="{reading: i === current && reading}">{{"'' "+t.text+" ''"}}</p>
-            </div>
+              </div>
         </div>
         
-
+        </div>
     </div>
 </template>
 
@@ -65,16 +68,24 @@ export default {
     width: 50%;
     height: 100%;
     text-align: center;
+     
+
+}
+.tweetList{
+  height:65%;
+  width:100%;
+  overflow: auto;
 }
 .tweets{
-    background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    background-color: #f1f3f6;
+    padding-top: 0.5px;
+    padding-bottom: 0.5px;
     width: 90%;
-    border-radius: 4px;
+    border-radius: 5px;
     margin: auto;
-    -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
-    margin-top:50px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15), inset 0px 0px 20px rgba(255, 255, 255, 0.7);
+    margin-top:15px;
+    margin-bottom:20px;
 }
 h2{
   font-size: 1.0em;
@@ -86,26 +97,28 @@ h2{
 button{
     width: 250px;
     height: 50px;
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
     border:none;
-    border-radius: 4px;
+    border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    -webkit-box-shadow: 10px 10px 80px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
 }
 button:active{
-    -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
 }
 button:hover{
-    margin-top:28px;
-    margin-bottom:2px;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    margin-top:8px;
+    margin-bottom:22px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    background-color: #ffffff;
     
 }
 

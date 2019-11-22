@@ -14,7 +14,7 @@ export default {
 <style scoped>
 .container{
   display: flex;
-  height: 80px;
+  height: 60px;
   justify-content: space-between;
   flex-wrap: nowrap;
   word-wrap: none;
