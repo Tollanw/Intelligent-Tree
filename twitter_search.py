@@ -18,12 +18,12 @@ def push_tweets_to_rasberry():
 
 def get_tweets(creds):
     # Load the query for a search from json file
-    with open("twitter_search.json", "r") as file:
+    with open("./Twitterfiles/twitter_search.json", "r") as file:
         search = json.load(file)
     # Instantiate an object of twython which handels Oauth tokens
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     
-    with open("tweets_parsed.json", "w") as file:
+    with open("./Twitterfiles/tweets_parsed.json", "w") as file:
         output = {}
         output['tweets'] = []
         for status in python_tweets.search(**search)['statuses']:
@@ -40,7 +40,7 @@ def twitter_search():
     
     #WAIT_TIME_SECONDS = 1 # every one hour
     #ticker = threading.Event()
-    with open("twitter_Auth.json") as auth:
+    with open("./Twitterfiles/twitter_Auth.json") as auth:
         data = json.load(auth)
         get_tweets(data)
         #push_tweets_to_rasberry()
