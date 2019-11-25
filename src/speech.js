@@ -20,7 +20,6 @@ export default class TextToSpeech {
 	initregnition = () => {
 		this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition 
 			|| window.mozSpeechRecognition || window.msSpeechRecognition)()
-		this.recognition.lang='sv-SE'
 		//maxAlternatives=3 gives 3 different alternatives when the onresult is called by recognition
 		this.recognition.maxAlternatives = 3
 		this.recognition.continuous = true;
