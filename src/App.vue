@@ -1,24 +1,6 @@
 //template for first login page
 <template>
-  <div id="app">
     
-    <Top />
-
-    <div class="main">
-      
-      
-      <Tweets_list />
-      
-      <div class="right">
-        <Record_voice />
-      
-        <Moods />
-      </div>
-    </div>
-    <div class="footer">
-       © 2019 ~ Alexander Al-Hakeem - Albin Becevic - Niklas Paasonen - Lucas Rosvall - Emil Toll Wester - David Wilkins
-      <p/>
-      Chalmers tekniska högskola
     <div id="app">
         <img src="./assets/logo.png">
         <div>
