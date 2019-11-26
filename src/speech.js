@@ -123,8 +123,10 @@ export default class TextToSpeech {
 			//writes to the span with id=message
 			document.getElementById("message").innerHTML = transcript;  
 			if (transcript.toLowerCase().includes('hej') || transcript.toLowerCase().includes('tjena')) {
-				var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
-				talk(greetings);
+				//var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
+				//talk(greetings);
+				talk("Hej där!");
+
 			}
 			else if (transcript.toLowerCase().includes('mamma')) {
 				talk("Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag.");

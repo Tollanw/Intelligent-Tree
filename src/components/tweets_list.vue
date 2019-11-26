@@ -1,16 +1,19 @@
 <template>
     <div class="container">
         <h1>KÖADE TWEETS</h1>
-        <button @click="listen">LÄS UPP</button>
+          <input type="text" name="keyword" id="keyword" placeholder="NYCKELORD...">
+          <input type="text" name="filter" id="filter" placeholder="RESULTATFILTER...">
+          
+          <button class="update" @click="tweet_update">UPPDATERA</button>
+        
+        <br>
+        <button class="read" @click="listen">LÄS UPP TWEETS</button>
         <div class="tweetList">
-            <div class="tweets">
-                <p>" Detta är en hårdkodad placeholder-tweet "</p>
-              </div>
             <div v-for="(t, i) of list" :key="t.id">
-              <div class="tweets">
-                <p v-bind:class="{reading: i === current && reading}">{{"'' "+t.text+" ''"}}</p>
-              </div>
-        </div>
+                <div class="tweets">
+                    <p v-bind:class="{reading: i === current && reading}">{{"'' "+t.text+" ''"}}</p>
+                </div>
+            </div>
         
         </div>
     </div>
@@ -43,6 +46,13 @@ export default {
     speak (text) {
       return this.speech.speak(text)
     },
+    tweet_update(){
+      var keyword = document.getElementById("keyword").value;
+      var filter = document.getElementById("filter").value;
+      console.log(keyword + "   " + filter);
+
+     // require('../../runPython.js');
+    },
     listen () {
       this.synth.cancel()
       let _this = this
@@ -64,6 +74,10 @@ export default {
 </script>
 
 <style scoped>
+select option[data-default] {
+  color: #888;
+}
+
 .container{
     width: 50%;
     height: 100%;
@@ -77,7 +91,7 @@ export default {
   overflow: auto;
 }
 .tweets{
-    background-color: #f1f3f6;
+    background-color: #ffffff;
     padding-top: 0.5px;
     padding-bottom: 0.5px;
     width: 90%;
@@ -94,8 +108,25 @@ h2{
 .reading{
   color:hotpink;
 }
-button{
-    width: 250px;
+input{
+  width: 150px;
+    height: 48px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border:none;
+    border-bottom:3px solid coral;
+    border-radius: 5px;
+    font-size: 1.0em;
+    cursor:text;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    margin-right:20px;
+    padding-left:15px;
+}
+.update{
+    width: 150px;
     height: 50px;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -107,19 +138,45 @@ button{
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px coral;
+
 }
-button:active{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
+.update:active{
+    box-shadow: 0 1px coral;
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
-}
-button:hover{
-    margin-top:8px;
-    margin-bottom:22px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-    background-color: #ffffff;
+    transform: translateY(2px);
     
+}
+.update:hover{ 
+    background-color: #ffffff;
+}
+.read{
+    width: 200px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border:none;
+    border-radius: 20px;
+    font-size: 1.0em;
+    cursor:pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px cornflowerblue;
+
+}
+.read:active{
+    box-shadow: 0 1px cornflowerblue;
+    border:none;
+    color: #cccccc;
+    background-color: #eeeeee;
+    transform: translateY(2px);
+}
+.read:hover{  
+    background-color: #ffffff;
 }
 
 

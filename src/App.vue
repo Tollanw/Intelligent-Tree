@@ -1,16 +1,10 @@
 <template>
   <div id="app">
-    
     <Top />
-
     <div class="main">
-      
-      
       <Tweets_list />
-      
       <div class="right">
         <Record_voice />
-      
         <Moods />
       </div>
     </div>
@@ -42,7 +36,6 @@ body{
   font-family: Nunito;
   background-color: black;
   color: #343434;
-  
 }
 </style>
 
