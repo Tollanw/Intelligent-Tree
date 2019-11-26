@@ -12,12 +12,14 @@ console.log(data)
 }
 
 function filterdata(mood){
-let result = jsonQuery('Phrases[*mood=' + mood + '].phrase',{
-	data:data
-}).value
-console.log(result)
-return result;
-}
+	let result = jsonQuery('Phrases[*mood=' + mood + '].phrase',{
+		data:data
+	}).value
+	console.log(result)
+	var randomNumber = Math.floor(Math.random() * result.length);
+	console.log(result[randomNumber]);
+	return result[randomNumber];
+	}
 
 readData();
 filterdata(3);
