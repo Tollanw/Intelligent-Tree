@@ -18,14 +18,15 @@ def push_tweets_to_rasberry():
 
 def get_tweets(creds):
     # Load the query for a search from json file
-    with open("./Twitterfiles/twitter_search.json", "r") as file:
+    with open("twitter_search.json", "r") as file:
         search = json.load(file)
     # Instantiate an object of twython which handels Oauth tokens
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     
-    with open("./Twitterfiles/tweets_parsed.json", "w") as file:
+    with open("tweets_parsed.json", "w") as file:
         output = {}
         output['tweets'] = []
+        #Starts the search and iterate over the tweets and saves one.
         for status in python_tweets.search(**search)['statuses']:
 
             output['tweets'].append({
@@ -36,29 +37,18 @@ def get_tweets(creds):
         json.dump(output,file)
 
 def twitter_search():
-    #print (time.ctime())
-    
-    #WAIT_TIME_SECONDS = 1 # every one hour
-    #ticker = threading.Event()
-    with open("./Twitterfiles/twitter_Auth.json") as auth:
+    #Loads the Auth json file VERY crucial.
+    with open("twitter_Auth.json") as auth:
         data = json.load(auth)
         get_tweets(data)
-        #push_tweets_to_rasberry()
 
-    
-    #while not ticker.wait(WAIT_TIME_SECONDS):
-    #    twitter_search()
 
 def filterString(text):
+    #Replaces the links and symbols to a more suitable string.
     text = re.sub(r"http\S+", "", text)
+    text = re.sub(r"url\S+", "", text)
+    text = re.sub(r"@", "at ", text)
+    text = re.sub(r"#", "hashtag ", text)
     return text
 
-
-#if __name__ == "__main__":
-#    try:
-#        twitter_search()
-#    except KeyboardInterrupt:
-#        print ("Terminate twitter_search")
-#    except Exception as e:
-#        print (e)
 twitter_search()
