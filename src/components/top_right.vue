@@ -10,13 +10,13 @@
 <script>
 import Speech from '../speech'
 export default {
-  name: 'record_voice',
-  data () {
-      return{
+    name: 'record_voice',
+    data () {
+      return {
       speech: new Speech(),
       isRecording: false
       }
-  },
+    },
 
   methods:  {
       listenToPerson(){
@@ -25,7 +25,7 @@ export default {
               this.speech.listen();
               document.getElementById("rec").style.backgroundColor = "crimson";
               document.getElementById("rec").style.color = "white";
-              document.getElementById("rec").innerText = "STOPPA ...";
+              document.getElementById("rec").innerText = "STOPPA INSPELNING";
               
           }
           else{
@@ -66,18 +66,19 @@ button{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
+    background-color: #ffffff;
 }
 button:active{
     border:none;
     color:#cccccc;
-    background-color: #eeeeee;
+    background-color: crimson;
 }
 
 button:hover{
     margin-top:8px;
     margin-bottom: 2px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    
+    background-color: #ffffff;
 }
 
 
