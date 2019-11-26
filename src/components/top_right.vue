@@ -10,13 +10,13 @@
 <script>
 import Speech from '../speech'
 export default {
-  name: 'record_voice',
-  data () {
-      return{
+    name: 'record_voice',
+    data () {
+      return {
       speech: new Speech(),
       isRecording: false
       }
-  },
+    },
 
   methods:  {
       listenToPerson(){

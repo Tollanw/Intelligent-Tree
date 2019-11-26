@@ -5,8 +5,8 @@ export default class TextToSpeech {
 	constructor() {
 		//options used for the speech synthesis
 		this.options = {
-			rate: 1.1,
-			pitch: 0.3,
+			rate: 1,
+			pitch: 1,
 			voice: ''
 		}
 		this.available_voices = false
@@ -20,7 +20,6 @@ export default class TextToSpeech {
 	initregnition = () => {
 		this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition 
 			|| window.mozSpeechRecognition || window.msSpeechRecognition)()
-		this.recognition.lang='sv-SE'
 		//maxAlternatives=3 gives 3 different alternatives when the onresult is called by recognition
 		this.recognition.maxAlternatives = 3
 		this.recognition.continuous = true;
@@ -123,10 +122,9 @@ export default class TextToSpeech {
 			//writes to the span with id=message
 			document.getElementById("message").innerHTML = transcript;  
 			if (transcript.toLowerCase().includes('hej') || transcript.toLowerCase().includes('tjena')) {
+				talk("Tjena kompis");
 				//var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
 				//talk(greetings);
-				talk("Hej där!");
-
 			}
 			else if (transcript.toLowerCase().includes('mamma')) {
 				talk("Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag.");

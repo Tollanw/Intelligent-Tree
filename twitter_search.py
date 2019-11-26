@@ -9,6 +9,7 @@ import os
 import threading, time
 import json
 from twython import Twython
+import re
 
 def push_tweets_to_rasberry():
     command = "curl -d @parsed_tweets.json --header 'Content-type:application/json' -X POST http://<IP_ADDRESS:PORT>/tweets>" 
@@ -25,39 +26,29 @@ def get_tweets(creds):
     with open("tweets_parsed.json", "w") as file:
         output = {}
         output['tweets'] = []
+        #Starts the search and iterate over the tweets and saves one.
         for status in python_tweets.search(**search)['statuses']:
+
             output['tweets'].append({
                 'user' : status['user']['screen_name'],
                 'date' : status['created_at'],
-                'text' : status['full_text']
+                'text' : filterString(status["full_text"])
             })
-        print(output)
         json.dump(output,file)
-    #with open("tweets_parsed.json", "r") as file:
-        #data = json.load(file)
-        #print(data["tweets"][0]["user"])
-        #print(data["tweets"][0]["text"])
 
 def twitter_search():
-    #print (time.ctime())
-    
-    #WAIT_TIME_SECONDS = 1 # every one hour
-    #ticker = threading.Event()
+    #Loads the Auth json file VERY crucial.
     with open("twitter_Auth.json") as auth:
         data = json.load(auth)
         get_tweets(data)
-        #push_tweets_to_rasberry()
-
-    
-    #while not ticker.wait(WAIT_TIME_SECONDS):
-    #    twitter_search()
 
 
-#if __name__ == "__main__":
-#    try:
-#        twitter_search()
-#    except KeyboardInterrupt:
-#        print ("Terminate twitter_search")
-#    except Exception as e:
-#        print (e)
+def filterString(text):
+    #Replaces the links and symbols to a more suitable string.
+    text = re.sub(r"http\S+", "", text)
+    text = re.sub(r"url\S+", "", text)
+    text = re.sub(r"@", "at ", text)
+    text = re.sub(r"#", "hashtag ", text)
+    return text
+
 twitter_search()
