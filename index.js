@@ -10,7 +10,7 @@ const cookieSession = require('cookie-session')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 //root to application
-const publicRoot = 'C:/Users/wilki/source/repos/Tollanw/Intelligent-Tree/dist' //change to relative path
+const publicRoot = 'dist' //change to relative path
 app.use(express.static(publicRoot))
 // getting the local authentication type
 const LocalStrategy = require('passport-local').Strategy
