@@ -34,6 +34,7 @@ export default {
               document.getElementById("rec").style.backgroundColor = "white";
               document.getElementById("rec").style.color = "crimson";
               document.getElementById("rec").innerText = "SPELA IN";
+              
           }
          
       }
@@ -67,17 +68,17 @@ button{
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px darkred;
 }
 button:active{
     border:none;
     color:#cccccc;
     background-color: crimson;
+    box-shadow: 0 1px crimson;
+    transform: translateY(2px);
 }
 
 button:hover{
-    margin-top:8px;
-    margin-bottom: 2px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
 }
 
