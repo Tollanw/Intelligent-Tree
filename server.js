@@ -1,16 +1,19 @@
-const fetch = require("node-fetch");
-var http = require("http");
 const fs = require('fs');
-
-var data
 var jsonQuery = require('json-query')
 
+
+var data
+
+//Reads the data in the json file (phrases)
 function readData(){
 let rawdata = fs.readFileSync('data.json');
 data = JSON.parse(rawdata);
 console.log(data)
 }
 
+/*Filters the data based on mood and chooses a random phrase
+from it
+*/git 
 function filterdata(mood){
 	let result = jsonQuery('Phrases[*mood=' + mood + '].phrase',{
 		data:data
