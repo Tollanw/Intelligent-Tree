@@ -52,6 +52,9 @@ export default {
 </script>
 
 <style scoped>
+h1{
+    font-size: 1.5em;
+}
 .container{
    text-align: center;
     width: 100%;
@@ -71,23 +74,19 @@ export default {
     border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px #28B463;
 }
 .happy:active{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
+    box-shadow: 0 1px #28B463;
+    transform: translateY(2px);
 }
 .happy:hover{
-    margin-top:8px;
-    margin-bottom:2px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
 }
 .sad{
@@ -98,20 +97,19 @@ export default {
     border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px #9B59B6;
 }
 .sad:active{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
+    box-shadow: 0 1px #9B59B6;
+    transform: translateY(2px);
 }
 .sad:hover{
-    margin-top:38px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
 }
 </style>

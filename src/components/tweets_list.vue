@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>KÖADE TWEETS</h1>
+        <h1>TWEETS</h1>
           <input type="text" name="keyword" id="keyword" placeholder="NYCKELORD...">
           <input type="text" name="filter" id="filter" placeholder="RESULTATFILTER...">
           
@@ -100,6 +100,9 @@ select option[data-default] {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15), inset 0px 0px 20px rgba(255, 255, 255, 0.7);
     margin-top:15px;
     margin-bottom:20px;
+}
+h1{
+    font-size: 1.5em;
 }
 h2{
   font-size: 1.0em;

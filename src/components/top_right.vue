@@ -50,7 +50,9 @@ export default {
     text-align: center;
     border-bottom:3px solid #343434;
 }
-
+h1{
+    font-size: 1.5em;
+}
 h2{
   font-size: 1.0em;
   font-weight: normal;
