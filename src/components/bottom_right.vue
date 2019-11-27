@@ -1,7 +1,3 @@
-@DevTree1
-HEzLrUK.v@nE.B6
-
-
 <template>
     <div class="container">
         <h1>HUMÖR</h1>
@@ -16,7 +12,7 @@ HEzLrUK.v@nE.B6
 
 <script>
 
-//import DataHandler from '../server'
+//import DataHandler from '../../server'
 import Speech from '../speech'
 import Data from '../../data.json'
 
@@ -24,12 +20,10 @@ export default {
   name: 'moods',
   data () {
       return {
-    //  dataHandler: new DataHandler(),
-      data: Data.phrases,
-      speech: new Speech(),
-
+        //dataHandler: new DataHandler(),
+        data: Data.Phrases,
+        speech: new Speech(),
       }
-      
     },
     methods: {
         speak(text) {
@@ -41,7 +35,6 @@ export default {
 
         speakHappy() {
             this.speak(this.data[1].phrase);
-            console.log("hej");
             //var xhttp = new XMLHttpRequest();
             //xhttp.onreadystatechange = function() {
              //   if (this.readyState == 4 && this.status == 200) {
