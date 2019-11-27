@@ -68,7 +68,7 @@ button{
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
-    box-shadow: 0 4px darkred;
+    box-shadow: 0 4px #c82848;
 }
 button:active{
     border:none;

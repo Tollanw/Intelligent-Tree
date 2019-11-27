@@ -1,10 +1,11 @@
 <template>
-    <div>
-        <h2>Login</h2>
+    <div class="form">
+        <h2>TwitterTree</h2>
         <form v-on:submit='login'>
-            <input type='text' name='email' /><br>
-            <input type='password' name='password' /><br>
-            <input type='submit' value='Login' />
+          Ange användar-ID och lösenord <br><br>
+            <input class="textfield" type='text' name='email' placeholder='ID'/><br>
+            <input class="textfield" type='password' name='password' placeholder='LÖSENORD'/><br>
+            <input class="login_button" type='submit' value='LOGGA IN' />
         </form>
     </div>
 </template>
@@ -38,3 +39,52 @@ export default {
   }
 }
 </script>
+
+<style>
+  .form{
+    color:#239B56;
+  }
+  .textfield{
+    width: 200px;
+    height: 48px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border:none;
+    border-bottom:3px solid #2ECC71;
+    border-radius: 5px;
+    font-size: 1.0em;
+    cursor:text;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    padding-left:15px;
+  }
+
+  .login_button{
+    width: 150px;
+    height: 45px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border:none;
+    border-radius: 20px;
+    font-size: 1.0em;
+    cursor:pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 5px #2ECC71;
+}
+.login_button:active{
+    box-shadow: 0 2px #2ECC71;;
+    border:none;
+    background-color: #eeeeee;
+    transform: translateY(2px);
+    
+}
+.login_button:hover{ 
+    background-color: #ffffff;
+}
+
+</style>
