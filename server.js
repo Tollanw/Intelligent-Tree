@@ -13,7 +13,7 @@ console.log(data)
 
 /*Filters the data based on mood and chooses a random phrase
 from it
-*/git 
+*/
 function filterdata(mood){
 	let result = jsonQuery('Phrases[*mood=' + mood + '].phrase',{
 		data:data
