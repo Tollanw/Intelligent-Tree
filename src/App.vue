@@ -2,11 +2,8 @@
 <template>
     
     <div id="app">
-        <img src="./assets/logo.png">
         <div>
-            <router-link :to="{ name: 'Dashboard'}">Dashboard</router-link>
-            <router-link :to="{ name: 'Login'}">Login</router-link>
-            <a href="#" v-on:click="logout">Logout</a>
+            <a href="#" class="logout" v-on:click="logout">LOGGA UT</a>
         </div>
         <router-view />
     </div>
@@ -29,13 +26,27 @@
 </script>
 
 <style>
+    
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+        margin-top: 20px;
+    }
+    .logout{
+      font-size: 1.3 em; 
+      color: white;
+      font-weight: bold;
+      text-decoration:none;
+      padding:5px 10px 5px 10px;
+    }
+    .logout:hover{
+      border: 2px solid white;
+    }
+    .logout:visited{
+      color:white;
     }
 </style>
 
