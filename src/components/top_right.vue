@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import Speech from '../speech'
+import Recognition from '../recognition'
 export default {
     name: 'record_voice',
     data () {
       return {
-      speech: new Speech(),
+      recognition: new Recognition(),
       isRecording: false
       }
     },
@@ -22,7 +22,7 @@ export default {
       listenToPerson(){
           if(this.isRecording == false){
               this.isRecording = true;
-              this.speech.listen();
+              this.recognition.listen();
               document.getElementById("rec").style.backgroundColor = "crimson";
               document.getElementById("rec").style.color = "white";
               document.getElementById("rec").innerText = "STOPPA INSPELNING";
@@ -30,7 +30,7 @@ export default {
           }
           else{
               this.isRecording = false;
-              this.speech.stopSpeechRecognition();
+              this.recognition.stopSpeechRecognition();
               document.getElementById("rec").style.backgroundColor = "white";
               document.getElementById("rec").style.color = "crimson";
               document.getElementById("rec").innerText = "SPELA IN";
