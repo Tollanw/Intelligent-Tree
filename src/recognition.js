@@ -9,16 +9,30 @@ export default class SpeechToText {
   //Init the recognition software
   //Maybe we should add grammar for the recognition, change some weight-values regarding trees etc.?
   initRecognition() {
-    this.recognition = new (window.SpeechRecognition ||
-      window.webkitSpeechRecognition ||
-      window.mozSpeechRecognition ||
-      window.msSpeechRecognition)();
-    //maxAlternatives=3 gives 3 different alternatives when the onresult is called by recognition
-    this.recognition.maxAlternatives = 3;
-    this.recognition.continuous = true;
+    //Check if recognition is available, if not: set recognition to false
+    this.recognition =
+      !!window.SpeechRecognition ||
+      !!window.webkitSpeechRecognition ||
+      !!window.mozSpeechRecognition ||
+      !!window.msSpeechRecognition
+        ? new (window.SpeechRecognition ||
+            window.webkitSpeechRecognition ||
+            window.mozSpeechRecognition ||
+            window.msSpeechRecognition)()
+        : false;
+    if (this.recognition) {
+      //maxAlternatives=3 gives 3 different alternatives when the onresult is called by recognition
+      this.recognition.maxAlternatives = 3;
+      this.recognition.continuous = true;
+    }
   }
 
   listen() {
+    if (!this.recognition) {
+      document.getElementById("message").innerHTML =
+        "SpeechRecognition är inte tillgängligt";
+      return;
+    }
     //start the recognition
     this.recognition.start();
     console.log("Recording started");
