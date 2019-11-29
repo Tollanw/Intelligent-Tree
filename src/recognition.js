@@ -28,7 +28,7 @@ export default class SpeechToText {
   }
 
   listen() {
-    if (!this.recognition) {
+    if (this.recognition == false) {
       document.getElementById("message").innerHTML =
         "SpeechRecognition är inte tillgängligt";
       return;
@@ -85,7 +85,12 @@ export default class SpeechToText {
   }
   //stop the recognition manually
   stopSpeechRecognition = () => {
-    this.recognition.stop();
-    console.log("Recognition has stopped by user");
+    if (this.recognition == false) {
+      console.log("Recognition does not work");
+      return;
+    }
+      this.recognition.stop();
+      console.log("Recognition has stopped by user");
+    
   };
 }
