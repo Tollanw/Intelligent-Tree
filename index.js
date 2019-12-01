@@ -15,6 +15,13 @@ app.use(express.static(publicRoot))
 // getting the local authentication type
 const LocalStrategy = require('passport-local').Strategy
 
+//for tweets
+const tweets = require('./tweets_parsed.json');
+
+//for moods
+const jsonQuery = require("json-query");
+const moods = require('./data.json');
+
 //initialize body parser
 app.use(bodyParser.json());
 //initialize cookie session
@@ -59,11 +66,23 @@ app.post('/api/login', (req, res, next) => {
         });
     })(req, res, next);
 });
+//get the json data
+app.get('/api/twitterdata',function (req,res) {
+    res.json(tweets);
+});
+//get a mood-phrase 
+app.get('/api/getMood',function (req,res) {
+    let result = jsonQuery("Phrases[*mood=" + req.query.mood + "].phrase", {
+        data: moods
+      }).value;
+      var randomNumber = Math.floor(Math.random() * result.length);
+      res.send(result[randomNumber])
+});
+
 //Setting up the URL: /api/logout, expires cookie session
 app.get('/api/logout', function (req, res) {
     req.logout();
 
-    console.log('logged out')
 
     return res.send();
 });
