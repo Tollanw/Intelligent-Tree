@@ -28,12 +28,27 @@ def get_tweets(creds):
         output['tweets'] = []
         #Starts the search and iterate over the tweets and saves one.
         for status in python_tweets.search(**search)['statuses']:
-
-            output['tweets'].append({
-                'user' : status['user']['screen_name'],
-                'date' : status['created_at'],
-                'text' : filterString(status["full_text"])
-            })
+            with open("DummyFile.json", "r") as filterFile:
+                data = json.load(filterFile)
+                i = 0
+                String = filterString(status["full_text"].lower()).split(" ")
+                lastElement = len(data["Phrase"])
+                print(String)
+                forbiddenTweet = False
+                while True:
+                    if lastElement == i:
+                        break
+                    for word in String:
+                        if word == (data["Phrase"][i]["text"]):
+                            forbiddenTweet = True
+                            print("FLAG")
+                    i += 1
+            if not forbiddenTweet:
+                output['tweets'].append({
+                    'user' : status['user']['screen_name'],
+                    'date' : status['created_at'],
+                    'text' : filterString(status["full_text"])
+                })
         json.dump(output,file)
 
 def twitter_search():
@@ -49,6 +64,7 @@ def filterString(text):
     text = re.sub(r"url\S+", "", text)
     text = re.sub(r"@", "at ", text)
     text = re.sub(r"#", "hashtag ", text)
+    text = re.sub(r"\n", " ", text)
     return text
 
 twitter_search()
