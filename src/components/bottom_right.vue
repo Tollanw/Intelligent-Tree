@@ -67,7 +67,7 @@ h1{
     margin:auto;
 }
 .happy{
-    width: 250px;
+    width: 200px;
     height: 50px;
     margin-top: 10px;
     border:none;
@@ -90,7 +90,7 @@ h1{
     background-color: #ffffff;
 }
 .sad{
-    width: 250px;
+    width: 200px;
     height: 50px;
     margin-top: 40px;
     border:none;
