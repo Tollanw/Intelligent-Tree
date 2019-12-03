@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <h1>LYSSNA EFTER RÖST</h1>
-        <button id="rec" @click="listenToPerson" >SPELA IN</button>
+        <button class="rec" id="rec" @click="startRecording" >SPELA IN</button>
+        <button class="stop" id="stop" @click="stopRecording" >STOPP</button>
         <br><br><br>
         <span id="message">" Resultat "</span>
     </div>
@@ -19,26 +20,23 @@ export default {
     },
 
   methods:  {
-      listenToPerson(){
+    startRecording(){
           if(this.isRecording == false){
               this.isRecording = true;
               this.recognition.listen();
-              document.getElementById("rec").style.backgroundColor = "crimson";
-              document.getElementById("rec").style.color = "white";
-              document.getElementById("rec").innerText = "STOPPA INSPELNING";
-              
-          }
-          else{
-              this.isRecording = false;
-              this.recognition.stopSpeechRecognition();
-              document.getElementById("rec").style.backgroundColor = "white";
-              document.getElementById("rec").style.color = "crimson";
-              document.getElementById("rec").innerText = "SPELA IN";
-              
+              console.log("STARTA");
           }
          
-      }
+    },
+    stopRecording(){
+        if(this.isRecording == true){
+            this.isRecording = false;
+            this.recognition.stopSpeechRecognition();
+            console.log("STOPPA");
+        }
+    }
   }
+
 
 }
 </script>
@@ -57,9 +55,9 @@ h2{
   font-size: 1.0em;
   font-weight: normal;
 }
-button{
+.rec{
     color:crimson;
-    width: 250px;
+    width: 140px;
     height: 50px;
     margin-top: 10px;
     border:none;
@@ -71,8 +69,9 @@ button{
     outline: none;
     background-color: #ffffff;
     box-shadow: 0 4px #c82848;
+    margin-right:30px;
 }
-button:active{
+.rec:active{
     border:none;
     color:#cccccc;
     background-color: crimson;
@@ -80,9 +79,35 @@ button:active{
     transform: translateY(2px);
 }
 
-button:hover{
+.rec:hover{
     background-color: #ffffff;
 }
+.stop{
+    color:white;
+    width: 140px;
+    height: 50px;
+    margin-top: 10px;
+    border:none;
+    border-radius: 20px;
+    font-size: 1.0em;
+    cursor:pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: crimson;
+    box-shadow: 0 4px darkred;
+    
+}
+.stop:active{
+    border:none;
+    color:#cccccc;
+    background-color: crimson;
+    box-shadow: 0 1px darkred;
+    transform: translateY(2px);
+}
 
+.stop:hover{
+    background-color: crimson;
+}
 
 </style>

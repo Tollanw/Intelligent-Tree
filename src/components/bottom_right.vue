@@ -59,18 +59,19 @@ h1 {
   height: 90%;
   margin: auto;
 }
-.happy {
-  width: 250px;
-  height: 50px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 20px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: all 0.08s linear;
-  outline: none;
-  background-color: #ffffff;
-  box-shadow: 0 4px #28b463;
+
+.happy{
+    width: 200px;
+    height: 50px;
+    margin-top: 10px;
+    border:none;
+    border-radius: 20px;
+    font-size: 1.0em;
+    cursor:pointer;
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px #28B463;
 }
 .happy:active {
   border: none;
@@ -82,18 +83,18 @@ h1 {
 .happy:hover {
   background-color: #ffffff;
 }
-.sad {
-  width: 250px;
-  height: 50px;
-  margin-top: 40px;
-  border: none;
-  border-radius: 20px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: all 0.08s linear;
-  outline: none;
-  background-color: #ffffff;
-  box-shadow: 0 4px #9b59b6;
+.sad{
+    width: 200px;
+    height: 50px;
+    margin-top: 40px;
+    border:none;
+    border-radius: 20px;
+    font-size: 1.0em;
+    cursor:pointer;
+    transition:all 0.08s linear;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 0 4px #9B59B6;
 }
 .sad:active {
   border: none;
