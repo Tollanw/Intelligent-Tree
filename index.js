@@ -27,7 +27,7 @@ const twitter_search = require("./twitter_search.json");
 
 //For running python
 const path = require("path");
-const { spawn } = require("child_process");
+const { spawnSync } = require("child_process");
 
 //initialize body parser
 app.use(bodyParser.json());
@@ -92,8 +92,6 @@ app.get("/api/getMood", function(req, res) {
 app.get("/api/setTwitterInfo", function(req, res) {
   var filter = req.query.filter;
   var keyword = req.query.keyword;
-  console.log("Filter = " + filter);
-  console.log("Keyword = " + keyword);
   //change the value in the in-memory object
 
   //update twitter_search
@@ -104,10 +102,13 @@ app.get("/api/setTwitterInfo", function(req, res) {
   fs.writeFileSync('twitter_search.json', JSON.stringify(twitter_search));
   }
 
-
   const subprocess = runScript();
 
-  res.send("hej");
+  let data = fs.readFileSync('tweets_parsed.json');
+  let tweets = JSON.parse(data);
+  console.log(tweets);
+  
+  res.json(tweets);
   //Twitter search .json
   //Run script and update twitterlist
   //send back the updated parsed twitter list
@@ -214,7 +215,7 @@ app.get("/", (req, res, next) => {
 });
 function runScript() {
   console.log("run script");
-  return spawn("python", [
+  return spawnSync("python", [
     "-u",
     path.join("", "twitter_search.py"),
     "--foo",

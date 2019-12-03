@@ -76,7 +76,7 @@ export default {
           }
         })
         .then(res => {
-          console.log("success");
+          this.list = res.data.tweets;
         })
         .catch(error => {
           this.errors.push(error);
