@@ -76,7 +76,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          console.log("success");
         })
         .catch(error => {
           this.errors.push(error);

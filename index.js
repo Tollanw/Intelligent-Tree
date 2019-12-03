@@ -22,6 +22,9 @@ var fs = require("fs");
 const jsonQuery = require("json-query");
 const moods = require("./data.json");
 
+//for changing twitter_search.json
+const twitter_search = require("./twitter_search.json");
+
 //For running python
 const path = require("path");
 const { spawn } = require("child_process");
@@ -91,6 +94,16 @@ app.get("/api/setTwitterInfo", function(req, res) {
   var keyword = req.query.keyword;
   console.log("Filter = " + filter);
   console.log("Keyword = " + keyword);
+  //change the value in the in-memory object
+
+  //update twitter_search
+  if(!(filter.length < 2 || keyword < 2)) {
+  twitter_search.q = keyword;
+  twitter_search.result_type=filter;
+  //Serialize as JSON and Write it to a file
+  fs.writeFileSync('twitter_search.json', JSON.stringify(twitter_search));
+  }
+
 
   const subprocess = runScript();
 
@@ -99,6 +112,12 @@ app.get("/api/setTwitterInfo", function(req, res) {
   //Run script and update twitterlist
   //send back the updated parsed twitter list
 });
+
+app.post("/api/runscript", function(req, res) {
+    const subprocess = runScript();
+
+});
+
 //recording parse, send back the result.
 app.get("/api/speech", function(req, res) {
   var text = req.query.text;
