@@ -78,14 +78,23 @@ app.get('/api/getMood',function (req,res) {
       var randomNumber = Math.floor(Math.random() * result.length);
       res.send(result[randomNumber])
 });
-
+//update the twitterlist with the input
+app.get('/api/setTwitterInfo', function (req,res) {
+    var filter = req.query.filter;
+    var keyword = req.query.keyword;
+    console.log("Filter = " + filter);
+    console.log ("Keyword = " + keyword);
+    //Twitter search .json
+    //Run script and update twitterlist
+    //send back the updated parsed twitter list
+    res.json(tweets);
+});
 //Setting up the URL: /api/logout, expires cookie session
 app.get('/api/logout', function (req, res) {
     req.logout();
-
-
     return res.send();
 });
+
 //middleware checks authentication
 const authMiddleware = (req, res, next) => {
     if (!req.isAuthenticated()) {

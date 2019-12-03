@@ -9,7 +9,7 @@
       placeholder="RESULTATFILTER..."
     />
 
-    <button class="update" @click="getTwitterData">UPPDATERA</button>
+    <button class="update" @click="setTwitterInfo">UPPDATERA</button>
 
     <br />
     <button class="read" @click="listen">LÄS UPP TWEETS</button>
@@ -51,6 +51,28 @@ export default {
     getTwitterData: function() {
       axios
         .get("/api/twitterdata")
+        .then(res => {
+          this.list = res.data.tweets;
+        })
+        .catch(error => {
+          this.errors.push(error);
+          console.log(error);
+        });
+    },
+    setTwitterInfo: function() {
+      var keyInput = document.getElementById("keyword").value;
+      var filterInput = document.getElementById("filter").value;
+      if (keyInput == null || filterInput == null) {
+        alert("Wrong input");
+        return;
+      }
+      axios
+        .get("/api/setTwitterInfo", {
+          params: {
+            keyword: document.getElementById("keyword").value,
+            filter: document.getElementById("filter").value
+          }
+        })
         .then(res => {
           this.list = res.data.tweets;
         })
