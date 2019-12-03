@@ -84,10 +84,12 @@ app.get('/api/setTwitterInfo', function (req,res) {
     var keyword = req.query.keyword;
     console.log("Filter = " + filter);
     console.log ("Keyword = " + keyword);
+    var spawn = require("child_process").spawn; 
+    var process = spawn('python',["twitter_search.py"]); 
     //Twitter search .json
     //Run script and update twitterlist
     //send back the updated parsed twitter list
-    res.json(tweets);
+    res.send("klar");
 });
 //Setting up the URL: /api/logout, expires cookie session
 app.get('/api/logout', function (req, res) {

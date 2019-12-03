@@ -27,7 +27,6 @@
 
 <script>
 import axios from "axios";
-import router from "../router";
 import Speech from "../speech";
 import { setTimeout } from "timers";
 
@@ -52,14 +51,14 @@ export default {
       axios
         .get("/api/twitterdata")
         .then(res => {
-          this.list = res.data.tweets;
+          console.log(res);
         })
         .catch(error => {
           this.errors.push(error);
           console.log(error);
         });
     },
-    setTwitterInfo: function() {
+    setTwitterInfo: function(){
       var keyInput = document.getElementById("keyword").value;
       var filterInput = document.getElementById("filter").value;
       if (keyInput == null || filterInput == null) {
