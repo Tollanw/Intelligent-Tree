@@ -1,20 +1,24 @@
 const fs = require('fs');
 var jsonQuery = require('json-query')
 
+class readData{
 
-var data
+	constructor(){
+		this.data;
+	}
+	//var data
 
-//Reads the data in the json file (phrases)
-function readData(){
-let rawdata = fs.readFileSync('data.json');
-data = JSON.parse(rawdata);
-console.log(data)
-}
+	//Reads the data in the json file (phrases)
+	readFile(){
+	let rawdata = fs.readFileSync('data.json');
+	data = JSON.parse(rawdata);
+	console.log(data)
+	}
 
-/*Filters the data based on mood and chooses a random phrase
-from it
-*/
-function filterdata(mood){
+	/*Filters the data based on mood and chooses a random phrase
+	from it
+	*/
+	filterData(mood){
 	let result = jsonQuery('Phrases[*mood=' + mood + '].phrase',{
 		data:data
 	}).value
@@ -23,9 +27,8 @@ function filterdata(mood){
 	console.log(result[randomNumber]);
 	return result[randomNumber];
 	}
+}
 
-readData();
-filterdata(3);
 
 
 
