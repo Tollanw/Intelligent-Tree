@@ -22,6 +22,10 @@ const tweets = require('./tweets_parsed.json');
 const jsonQuery = require("json-query");
 const moods = require('./data.json');
 
+//For running python
+const path = require('path')
+const {spawn} = require('child_process')
+
 //initialize body parser
 app.use(bodyParser.json());
 //initialize cookie session
@@ -84,12 +88,11 @@ app.get('/api/setTwitterInfo', function (req,res) {
     var keyword = req.query.keyword;
     console.log("Filter = " + filter);
     console.log ("Keyword = " + keyword);
- //   var spawn = require("child_process").spawn; 
-  //  var process = spawn('python',["twitter_search.py"]); 
+    const subprocess = runScript()
     //Twitter search .json
     //Run script and update twitterlist
     //send back the updated parsed twitter list
-    res.send("klar");
+    res.json(tweets);
 });
 //recording parse, send back the result. 
 app.get('/api/speech', function (req,res) {
@@ -185,3 +188,10 @@ app.listen(8080, () => {
 app.get("/", (req, res, next) => {
     res.sendFile("index.html", { root: publicRoot })
 })
+function runScript(){
+    return spawn('python', [
+      "-u", 
+      path.join("", 'twitter_search.py'),
+      "--foo", "some value for foo",
+    ]);
+  }
