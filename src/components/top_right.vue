@@ -4,7 +4,8 @@
         <button class="rec" id="rec" @click="startRecording" >SPELA IN</button>
         <button class="stop" id="stop" @click="stopRecording" >STOPP</button>
         <br><br><br>
-        <span id="message">" Resultat "</span>
+        <span id="result_text"></span>
+        <span id="message"></span>
     </div>
 </template>
 
@@ -24,7 +25,8 @@ export default {
           if(this.isRecording == false){
               this.isRecording = true;
               this.recognition.listen();
-              console.log("STARTA");
+              document.getElementById("result_text").innerHTML = "";
+              document.getElementById("message").innerHTML = "Spelar in ...";
           }
          
     },
@@ -32,7 +34,7 @@ export default {
         if(this.isRecording == true){
             this.isRecording = false;
             this.recognition.stopSpeechRecognition();
-            console.log("STOPPA");
+            document.getElementById("result_text").innerHTML = "Resultat: ";
         }
     }
   }
