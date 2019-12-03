@@ -91,6 +91,32 @@ app.get('/api/setTwitterInfo', function (req,res) {
     //send back the updated parsed twitter list
     res.send("klar");
 });
+//recording parse, send back the result. 
+app.get('/api/speech', function (req,res) {
+    var text = req.query.text
+    console.log(text);
+
+    if (text.toLowerCase().includes("hej") || text.toLowerCase().includes("tjena")) {
+        res.send("Tjena kompis");
+       
+      } else if (text.toLowerCase().includes("mamma")) {
+        res.send(
+          "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
+        );
+      } else if (text.toLowerCase() === "hur lång är du") {
+        res.send("Jag vet inte, men jag tror jag är över 30 meter.");
+      } else if (
+        text.toLowerCase().includes("träd") ||
+        text.toLowerCase().includes("cool")
+      ) {
+        res.send("Jag är ett så himla coolt träd.");
+      } else {
+        res.send("Jag förstår inte vad du menar med " + text);
+      }
+
+});
+
+
 //Setting up the URL: /api/logout, expires cookie session
 app.get('/api/logout', function (req, res) {
     req.logout();

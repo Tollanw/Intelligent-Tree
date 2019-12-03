@@ -1,5 +1,5 @@
 import Speech from "./speech.js";
-
+import axios from "axios";
 export default class SpeechToText {
   constructor() {
     this.recognition;
@@ -57,30 +57,21 @@ export default class SpeechToText {
 
     //is called when recognition has a result..
     this.recognition.onresult = function(event) {
-      console.log(event);
       var transcript = event.results[0][0].transcript;
-      document.getElementById("message").innerHTML = transcript;
-      if (
-        transcript.toLowerCase().includes("hej") ||
-        transcript.toLowerCase().includes("tjena")
-      ) {
-        talk("Tjena kompis");
-        //var greetings = greeting.greetings[Math.floor(Math.random() * greeting.greetings.length)].text;
-        //talk(greetings);
-      } else if (transcript.toLowerCase().includes("mamma")) {
-        talk(
-          "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
-        );
-      } else if (transcript.toLowerCase() === "hur lång är du") {
-        talk("Jag vet inte, men jag tror jag är över 30 meter.");
-      } else if (
-        transcript.toLowerCase().includes("träd") ||
-        transcript.toLowerCase().includes("cool")
-      ) {
-        talk("Jag är ett så himla coolt träd.");
-      } else {
-        talk("Jag förstår inte vad du menar med " + transcript);
-      }
+      axios
+        .get("/api/speech", {
+          params: {
+            text: transcript
+          }
+        })
+        .then(res => {
+          talk(res.data);
+        })
+        .catch(error => {
+          this.errors.push(error);
+          console.log(error);
+        });
+      document.getElementById("message").innerHTML = transcript;  
     };
   }
   //stop the recognition manually
@@ -89,8 +80,7 @@ export default class SpeechToText {
       console.log("Recognition does not work");
       return;
     }
-      this.recognition.stop();
-      console.log("Recognition has stopped by user");
-    
+    this.recognition.stop();
+    console.log("Recognition has stopped by user");
   };
 }
