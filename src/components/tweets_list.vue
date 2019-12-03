@@ -27,6 +27,7 @@
 
 <script>
 import axios from "axios";
+import router from "../router";
 import Speech from "../speech";
 import { setTimeout } from "timers";
 
@@ -51,7 +52,9 @@ export default {
       axios
         .get("/api/twitterdata")
         .then(res => {
-          console.log(res);
+          if(res.data.tweets!=null) {
+          this.list = res.data.tweets;
+          }
         })
         .catch(error => {
           this.errors.push(error);
@@ -73,7 +76,9 @@ export default {
           }
         })
         .then(res => {
-          this.list = res.data.tweets;
+          if(res.data.tweets!=null) {
+            this.list = res.data.tweets;
+          }
         })
         .catch(error => {
           this.errors.push(error);
