@@ -105,18 +105,11 @@ app.get("/api/setTwitterInfo", function(req, res) {
   const subprocess = runScript();
 
   let data = fs.readFileSync('tweets_parsed.json');
-  let tweets = JSON.parse(data);
-  console.log(tweets);
-  
+  let tweets = JSON.parse(data);  
   res.json(tweets);
   //Twitter search .json
   //Run script and update twitterlist
   //send back the updated parsed twitter list
-});
-
-app.post("/api/runscript", function(req, res) {
-    const subprocess = runScript();
-
 });
 
 //recording parse, send back the result.
@@ -214,7 +207,6 @@ app.get("/", (req, res, next) => {
   res.sendFile("index.html", { root: publicRoot });
 });
 function runScript() {
-  console.log("run script");
   return spawnSync("python", [
     "-u",
     path.join("", "twitter_search.py"),
