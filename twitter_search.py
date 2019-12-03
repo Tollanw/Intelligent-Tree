@@ -20,8 +20,8 @@ def twitter_search():
     #Loads the Auth json file VERY crucial.
     with open("twitter_Auth.json") as auth:
         data = json.load(auth)
-        followUser(data)
-        #get_tweets(data)
+        #followUser(data)
+        get_tweets(data)
 
 def get_tweets(creds):
     # Load the query for a search from json file
