@@ -21,7 +21,7 @@ def twitter_search():
     with open("twitter_Auth.json") as auth:
         data = json.load(auth)
         followUser(data)
-        get_tweets(data)
+        #get_tweets(data)
 
 def get_tweets(creds):
     # Load the query for a search from json file
@@ -50,7 +50,8 @@ def followUser(creds):
     with open("timeline_parsed_tweets.json", "w") as write:
         output = {}
         output['tweets'] = []
-        for status in python_tweets.get_user_timeline(**timeline)["statuses"]:
+        for status in python_tweets.get_user_timeline(**timeline):
+            #print(status["full_text"])
             if not forbiddenTweet(status["full_text"]):
                 output['tweets'].append({
                     'user' : status['user']['screen_name'],
@@ -73,9 +74,9 @@ def forbiddenTweet(text):
         data = json.load(filterFile)
         i = 0
         String = filterString(text.lower()).split(" ")
-        String = re.sub(r"\n", " ", String)
+        #String = re.sub(r"\n", " ", String)
         lastElement = len(data["Phrase"])
-        print(String)
+        #print(String)
         forbiddenTweet = False
         while True:
             if lastElement == i:
