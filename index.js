@@ -162,6 +162,7 @@ app.listen(8080, () => {
 app.get("/", (req, res, next) => {
     res.sendFile("index.html", { root: publicRoot })
 })
+//Method to run the python code to update the tweet list.
 function runScript(){
     return spawn('python', [
       "-u", 
