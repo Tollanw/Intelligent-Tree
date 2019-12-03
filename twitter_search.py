@@ -15,6 +15,13 @@ def push_tweets_to_rasberry():
     command = "curl -d @parsed_tweets.json --header 'Content-type:application/json' -X POST http://<IP_ADDRESS:PORT>/tweets>" 
 #   os.system(command)
     print(command)
+    
+def twitter_search():
+    #Loads the Auth json file VERY crucial.
+    with open("twitter_Auth.json") as auth:
+        data = json.load(auth)
+        followUser(data)
+        get_tweets(data)
 
 def get_tweets(creds):
     # Load the query for a search from json file
@@ -28,22 +35,7 @@ def get_tweets(creds):
         output['tweets'] = []
         #Starts the search and iterate over the tweets and saves one.
         for status in python_tweets.search(**search)['statuses']:
-            with open("DummyFile.json", "r") as filterFile:
-                data = json.load(filterFile)
-                i = 0
-                String = filterString(status["full_text"].lower()).split(" ")
-                lastElement = len(data["Phrase"])
-                print(String)
-                forbiddenTweet = False
-                while True:
-                    if lastElement == i:
-                        break
-                    for word in String:
-                        if word == (data["Phrase"][i]["text"]):
-                            forbiddenTweet = True
-                            print("FLAG")
-                    i += 1
-            if not forbiddenTweet:
+            if not forbiddenTweet(status["full_text"]):
                 output['tweets'].append({
                     'user' : status['user']['screen_name'],
                     'date' : status['created_at'],
@@ -51,20 +43,49 @@ def get_tweets(creds):
                 })
         json.dump(output,file)
 
-def twitter_search():
-    #Loads the Auth json file VERY crucial.
-    with open("twitter_Auth.json") as auth:
-        data = json.load(auth)
-        get_tweets(data)
+def followUser(creds):
+    python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
+    with open("twitter_timeline.json", "r") as file:
+        timeline = json.load(file)
+    with open("timeline_parsed_tweets.json", "w") as write:
+        output = {}
+        output['tweets'] = []
+        for status in python_tweets.get_user_timeline(**timeline)["statuses"]:
+            if not forbiddenTweet(status["full_text"]):
+                output['tweets'].append({
+                    'user' : status['user']['screen_name'],
+                    'date' : status['created_at'],
+                    'text' : filterString(status["full_text"])
+                })
+        json.dump(output, write)
 
-
+#Filter Section of code            
 def filterString(text):
     #Replaces the links and symbols to a more suitable string.
     text = re.sub(r"http\S+", "", text)
     text = re.sub(r"url\S+", "", text)
     text = re.sub(r"@", "at ", text)
     text = re.sub(r"#", "hashtag ", text)
-    text = re.sub(r"\n", " ", text)
     return text
 
+def forbiddenTweet(text):
+    with open("DummyFile.json", "r") as filterFile:
+        data = json.load(filterFile)
+        i = 0
+        String = filterString(text.lower()).split(" ")
+        String = re.sub(r"\n", " ", String)
+        lastElement = len(data["Phrase"])
+        print(String)
+        forbiddenTweet = False
+        while True:
+            if lastElement == i:
+                break
+            for word in String:
+                if word == (data["Phrase"][i]["text"]):
+                    forbiddenTweet = True
+                    print("FLAG")
+            i += 1
+    return forbiddenTweet
+
+#Run section
 twitter_search()
