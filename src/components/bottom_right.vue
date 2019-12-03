@@ -1,7 +1,3 @@
-@DevTree1
-HEzLrUK.v@nE.B6
-
-
 <template>
     <div class="container">
         <h1>HUMÖR</h1>
@@ -16,7 +12,7 @@ HEzLrUK.v@nE.B6
 
 <script>
 
-//import DataHandler from '../server'
+//import DataHandler from '../../server'
 import Speech from '../speech'
 import Data from '../../data.json'
 
@@ -24,12 +20,10 @@ export default {
   name: 'moods',
   data () {
       return {
-    //  dataHandler: new DataHandler(),
-      data: Data.phrases,
-      speech: new Speech(),
-
+        //dataHandler: new DataHandler(),
+        data: Data.Phrases,
+        speech: new Speech(),
       }
-      
     },
     methods: {
         speak(text) {
@@ -41,7 +35,6 @@ export default {
 
         speakHappy() {
             this.speak(this.data[1].phrase);
-            console.log("hej");
             //var xhttp = new XMLHttpRequest();
             //xhttp.onreadystatechange = function() {
              //   if (this.readyState == 4 && this.status == 200) {
@@ -59,6 +52,9 @@ export default {
 </script>
 
 <style scoped>
+h1{
+    font-size: 1.5em;
+}
 .container{
    text-align: center;
     width: 100%;
@@ -71,54 +67,49 @@ export default {
     margin:auto;
 }
 .happy{
-    width: 250px;
+    width: 200px;
     height: 50px;
     margin-top: 10px;
     border:none;
     border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px #28B463;
 }
 .happy:active{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
+    box-shadow: 0 1px #28B463;
+    transform: translateY(2px);
 }
 .happy:hover{
-    margin-top:8px;
-    margin-bottom:2px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
 }
 .sad{
-    width: 250px;
+    width: 200px;
     height: 50px;
     margin-top: 40px;
     border:none;
     border-radius: 20px;
     font-size: 1.0em;
     cursor:pointer;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:all 0.08s linear;
     outline: none;
     background-color: #ffffff;
+    box-shadow: 0 4px #9B59B6;
 }
 .sad:active{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0);
     border:none;
     color: #cccccc;
     background-color: #eeeeee;
+    box-shadow: 0 1px #9B59B6;
+    transform: translateY(2px);
 }
 .sad:hover{
-    margin-top:38px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
 }
 </style>

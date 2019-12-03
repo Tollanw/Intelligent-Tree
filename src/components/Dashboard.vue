@@ -9,9 +9,9 @@
             </div>
         </div>
         <div class="footer">
-            © 2019 - Alexander Al-Hakeem - Albin Becevic - Niklas Paasonen - Lucas Rosvall - Emil Toll Wester - David Wilkins
+            Â© 2019 - Alexander Al-Hakeem - Albin Becevic - Niklas Paasonen - Lucas Rosvall - Emil Toll Wester - David Wilkins
             <p />
-            Chalmers tekniska högskola
+            Chalmers tekniska hÃ¶gskola
         </div>
     </div>
 </template>
