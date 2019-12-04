@@ -77,7 +77,8 @@ app.post("/api/login", (req, res, next) => {
 });
 //get the json data
 app.get("/api/twitterdata", function(req, res) {
-  const tweets = require("./tweets_parsed.json");
+  let data = fs.readFileSync('tweets_parsed.json');
+  let tweets = JSON.parse(data);  
   res.json(tweets);
 });
 //get a mood-phrase
