@@ -4,20 +4,22 @@ import json
 from twython import Twython
 import re
 
-def twitter_search():
+def twitter_search(i):
     #Loads the Auth json file VERY crucial.
-    with open("twitter_Auth.json") as auth:
+    with open("twitter_Auth.json", "r") as auth:
         data = json.load(auth)
-        followUser(data)
+        followUser(data,i)
 
-def followUser(creds):
+def followUser(creds, i):
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     with open("twitter_timeline.json", "r") as file:
         timeline = json.load(file)
     with open("timeline_parsed_tweets.json", "w") as write:
         output = {}
         output['tweets'] = []
-        for status in python_tweets.get_user_timeline(**timeline):
+        for status in python_tweets.get_user_timeline(screen_name = timeline["users"][i]["screen_name"],
+            tweet_mode = timeline["users"][i]["tweet_mode"], count = timeline["users"][i]["count"],
+            exclude_replies = timeline["users"][i]["exclude_replies"]):
             if not forbiddenTweet(status["full_text"]):
                 output['tweets'].append({
                     'user' : status['user']['screen_name'],
@@ -53,4 +55,5 @@ def forbiddenTweet(text):
     return forbiddenTweet
 
 #Run section
-twitter_search()
+i = 1
+twitter_search(i)
