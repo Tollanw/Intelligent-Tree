@@ -58,20 +58,42 @@ export default class SpeechToText {
     //is called when recognition has a result..
     this.recognition.onresult = function(event) {
       var transcript = event.results[0][0].transcript;
-      axios
-        .get("/api/speech", {
-          params: {
-            text: transcript
+      if (
+        transcript.toLowerCase().includes("#")) {        
+        const words = transcript.split(" ");
+        for (var i = 0; i <= words.length; i++) {
+          if (words[i].includes("#")) {
+            axios
+              .get("/api/getTweetWithTag", {
+                params: {
+                  tag: words[i]
+                }
+              })
+              .then(res => {
+                talk(res.data);
+              })
+              .catch(error => {
+                this.errors.push(error);
+                console.log(error);
+              });
           }
-        })
-        .then(res => {
-          talk(res.data);
-        })
-        .catch(error => {
-          this.errors.push(error);
-          console.log(error);
-        });
-      document.getElementById("message").innerHTML = transcript;  
+        }
+      } else {
+        axios
+          .get("/api/speech", {
+            params: {
+              text: transcript
+            }
+          })
+          .then(res => {
+            talk(res.data);
+          })
+          .catch(error => {
+            this.errors.push(error);
+            console.log(error);
+          });
+      }
+      document.getElementById("message").innerHTML = transcript;
     };
   }
   //stop the recognition manually

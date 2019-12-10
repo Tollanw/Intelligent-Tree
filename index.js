@@ -45,7 +45,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Pointer for the tweetreading
-var pointer = {Value: 0}
+var pointer = { Value: 0 };
 
 //mock "database" of users
 let users = [
@@ -92,6 +92,7 @@ app.get("/api/getMood", function(req, res) {
   var randomNumber = Math.floor(Math.random() * result.length);
   res.send(result[randomNumber]);
 });
+
 //update the twitterlist with the input
 app.get("/api/setTwitterInfo", function(req, res) {
   var filter = req.query.filter;
@@ -105,7 +106,7 @@ app.get("/api/setTwitterInfo", function(req, res) {
     //Serialize as JSON and Write it to a file
     fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
     //reset the twitter_parsed pointer
-    pointer.Value=0;
+    pointer.Value = 0;
   }
 
   const subprocess = runScript();
@@ -118,22 +119,61 @@ app.get("/api/setTwitterInfo", function(req, res) {
   //send back the updated parsed twitter list
 });
 
+app.get("/api/getTweetWithTag", function(req, res) {
+  //check the cookie. får personen göra detta?
+
+  //Update twitter_search
+  var tag = req.query.tag;
+  console.log("tag: " + tag);
+  twitter_search.q = tag;
+  fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
+
+  //update parsedtweet
+  const subprocess = runScript();
+  //get new tweet
+  let data = fs.readFileSync("tweets_parsed.json");
+  let tweets = JSON.parse(data);
+  console.log(tweets);
+  //send back tweet to frontend
+  if(tweets.tweets.length<1) {
+    res.send("Hittade ingen tweets med hashtag " + tag);
+  } else {
+    res.send(tweets.tweets[0].text); 
+  }
+});
+
+app.get("/api/getTweet", function(req,res){
+    //check the cookie, who?
+
+  
+    //read tweets from file
+    let data = fs.readFileSync("tweets_parsed.json");
+    let tweets = JSON.parse(data);
+    //send back a tweet
+    res.send(tweets.tweets[pointer.Value].text);
+    if (pointer.Value++ >= tweets.tweets.length - 1) {
+      pointer.Value = 0;
+    }
+  
+});
+
+
 //recording parse, send back the result.
 app.get("/api/speech", function(req, res) {
   var text = req.query.text;
   console.log(text);
 
   if (
-    text.toLowerCase() === "säg tweet" ||
-    text.toLowerCase() === "säg en tweet"
+    text.toLowerCase() === "läs en tweet" ||
+    text.toLowerCase() === "läs upp en tweet"
   ) {
     //read tweets from file
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
     //send back a tweet
     res.send(tweets.tweets[pointer.Value].text);
-    if(pointer.Value++ >= tweets.tweets.length - 1) {
-      pointer.Value=0;
+    if (pointer.Value++ >= tweets.tweets.length - 1) {
+      pointer.Value = 0;
     }
   } else if (
     text.toLowerCase().includes("hej") ||
