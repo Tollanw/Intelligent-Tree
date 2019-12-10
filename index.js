@@ -44,6 +44,9 @@ app.use(passport.initialize());
 //initialize passports session management system
 app.use(passport.session());
 
+//Pointer for the tweetreading
+var pointer = {Value: 0}
+
 //mock "database" of users
 let users = [
   {
@@ -77,8 +80,8 @@ app.post("/api/login", (req, res, next) => {
 });
 //get the json data
 app.get("/api/twitterdata", function(req, res) {
-  let data = fs.readFileSync('tweets_parsed.json');
-  let tweets = JSON.parse(data);  
+  let data = fs.readFileSync("tweets_parsed.json");
+  let tweets = JSON.parse(data);
   res.json(tweets);
 });
 //get a mood-phrase
@@ -96,17 +99,19 @@ app.get("/api/setTwitterInfo", function(req, res) {
   //change the value in the in-memory object
 
   //update twitter_search
-  if(!(filter.length < 2 || keyword < 2)) {
-  twitter_search.q = keyword;
-  twitter_search.result_type=filter;
-  //Serialize as JSON and Write it to a file
-  fs.writeFileSync('twitter_search.json', JSON.stringify(twitter_search));
+  if (!(filter.length < 2 || keyword < 2)) {
+    twitter_search.q = keyword;
+    twitter_search.result_type = filter;
+    //Serialize as JSON and Write it to a file
+    fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
+    //reset the twitter_parsed pointer
+    pointer.Value=0;
   }
 
   const subprocess = runScript();
 
-  let data = fs.readFileSync('tweets_parsed.json');
-  let tweets = JSON.parse(data);  
+  let data = fs.readFileSync("tweets_parsed.json");
+  let tweets = JSON.parse(data);
   res.json(tweets);
   //Twitter search .json
   //Run script and update twitterlist
@@ -119,6 +124,18 @@ app.get("/api/speech", function(req, res) {
   console.log(text);
 
   if (
+    text.toLowerCase() === "säg tweet" ||
+    text.toLowerCase() === "säg en tweet"
+  ) {
+    //read tweets from file
+    let data = fs.readFileSync("tweets_parsed.json");
+    let tweets = JSON.parse(data);
+    //send back a tweet
+    res.send(tweets.tweets[pointer.Value].text);
+    if(pointer.Value++ >= tweets.tweets.length - 1) {
+      pointer.Value=0;
+    }
+  } else if (
     text.toLowerCase().includes("hej") ||
     text.toLowerCase().includes("tjena")
   ) {
