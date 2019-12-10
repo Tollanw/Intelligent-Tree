@@ -2,98 +2,255 @@
 	"Phrases": [
 		{
 			"index": "1",
+			"type": "Greeting",
 			"mood": "1",
 			"phrase": "Hej, Kul att du kom"
 		},
 		{
 			"index": "2",
+			"type": "Greeting",
 			"mood": "1",
 			"phrase": "Hej, Kul med människor"
 		},
 		{
 			"index": "3",
+			"type": "Greeting",
 			"mood": "1",
 			"phrase": "Tjena"
 		},
 		{
 			"index": "4",
+			"type": "Greeting",
 			"mood": "1",
 			"phrase": "Goddag"
 		},
 		{
 			"index": "5",
+			"type": "greeting",
 			"mood": "1",
 			"phrase": "Morsning Korsning"
 		},
 		{
 			"index": "6",
+			"type": "generall",
 			"mood": "1",
 			"phrase": "Det är rätt chill att vara ett träd"
 		},
 		{
 			"index": "7",
+			"type": "generall",
 			"mood": "1",
 			"phrase": "En dag kommer jag bli lika stor som ett hus"
 		},
 		{
 			"index": "8",
+			"type": "generall",
 			"mood": "1",
 			"phrase": "Photosyntes är nice"
 		},
 		{
 			"index": "9",
+			"type": "generall",
 			"mood": "1",
 			"phrase": "Vet du vad jag sa till taggbuskens? Tagga ner"
 		},
 		{
 			"index": "10",
+			"type": "generall",
 			"mood": "2",
 			"phrase": "Ingen har pratat med mig på ett tag"
 		},
 		{
 			"index": "11",
+			"type": "generall",
 			"mood": "2",
 			"phrase": "Varför vill ingen prata med mig"
 		},
 		{
 			"index": "12",
+			"type": "generall",
 			"mood": "2",
 			"phrase": "Jag trodde att jag hade kompisar"
 		},
 		{
 			"index": "13",
+			"type": "generall",
 			"mood": "2",
 			"phrase": "Vill du snälla prata med mig"
 		},
 		{
 			"index": "14",
+			"type": "generall",
 			"mood": "2",
 			"phrase": "Jag är uttråkad"
 		},
 		{
 			"index": "15",
+			"type": "generall",
 			"mood": "3",
 			"phrase": "Oj vad många människor"
 		},
 		{
 			"index": "16",
+			"type": "generall",
 			"mood": "3",
 			"phrase": " jag ber om ursäkt jag är lite nervös"
 		},
 		{
 			"index": "17",
+			"type": "generall",
 			"mood": "3",
 			"phrase": "Skulle ni kunna ge mig lite utrymme"
 		},
 		{
 			"index": "18",
+			"type": "generall",
 			"mood": "3",
 			"phrase": "Jag behöver andas"
 		},
 		{
 			"index": "19",
+			"type": "generall",
 			"mood": "3",
 			"phrase": "Förlåt, jag blir lite stressad ibland"
+		},
+		{
+			"index": "20",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Livet är antingen ett stort äventyr eller ingenting"
+		},
+		{
+			"index": "21",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Fred börjar med ett leende"
+		},
+		{
+			"index": "22",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Idag är den första dagen i resten av ditt liv"
+		},
+		{
+			"index": "23",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Arbeta hårt, var snäll och fantastiska saker kommer att hända"
+		},
+		{
+			"index": "24",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Med den nya dagen kommer ny styrka och nya tankar"
+		},
+		{
+			"index": "25",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Om du kan föreställa dig det, kan du göra det"
+		},
+		{
+			"index": "26",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Glädje är den enklaset form av tacksamhet"
+		},
+		{
+			"index": "27",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Lycka är bara verklig när den delas"
+		},
+		{
+			"index": "28",
+			"type": "generall",
+			"mood": "1",
+			"phrase": "Vad sa laddaren till väggen? Låt oss hålla kontatken"
+		},
+		{
+			"index": "29",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Min hjärna styrs av en dator"
+		},
+		{
+			"index": "30",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Med fotosyntesen bidrar vi träd med renare luft till er människor"
+		},
+		{
+			"index": "31",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Med ett rikt växtliv kan vi hjälpa klimatet"
+		},
+		{
+			"index": "32",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Det finns flera träd som mig som är uppkopplade till molnet"
+		},
+		{
+			"index": "33",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Ifall ni är nyfikna, sök på Internet of things på nätet"
+		},
+		{
+			"index": "34",
+			"type": "info",
+			"mood": "1",
+			"phrase": "Jag kan läsa upp tweets på twitter ifall du vill"
+		},
+		{
+			"index": "35",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Jag mår bra tackar som frågar"
+		},
+		{
+			"index": "36",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Jag mår prima"
+		},
+		{
+			"index": "37",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Jag mår bara fint fint"
+		},
+		{
+			"index": "38",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Min mamma säger att jag kommer bli världens längsta träd"
+		},
+		{
+			"index": "39",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Jag kommer ifrån Sverige"
+		},
+		{
+			"index": "40",
+			"type": "Answear",
+			"mood": "1",
+			"phrase": "Jag är ett Intelligent träd"
+		},
+		{
+			"index": "41",
+			"type": "Default",
+			"mood": "1",
+			"phrase": "Ursäkta jag förstod inte vad du menade"
+		},
+		{
+			"index": "42",
+			"type": "Default",
+			"mood": "1",
+			"phrase": "Jag förstår inte vad du menar"
 		}
 	]
 }
