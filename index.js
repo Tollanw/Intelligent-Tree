@@ -132,7 +132,7 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
 
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
-    res.json(tweets);
+    res.status(200).json(tweets);
     //Twitter search .json
     //Run script and update twitterlist
     //send back the updated parsed twitter list
@@ -160,7 +160,7 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
     console.log(tweets);
     //send back tweet to frontend
     if(tweets.tweets.length<1) {
-      res.send("Hittade ingen tweets med hashtag " + tag);
+      res.status(204).send("Hittade ingen tweets med hashtag " + tag);
     } else {
       res.send(tweets.tweets[0].text); 
     }
@@ -175,7 +175,7 @@ app.get("/api/getTweet",authMiddleware, function(req,res){
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
     //send back a tweet
-    res.send(tweets.tweets[pointer.Value].text);
+    res.status(501).send(tweets.tweets[pointer.Value].text);
     if (pointer.Value++ >= tweets.tweets.length - 1) {
       pointer.Value = 0;
     }
