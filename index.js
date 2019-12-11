@@ -49,6 +49,7 @@ app.use(passport.session());
 var pointer = { Value: 0 };
 
 //mock "database" of users
+/*
 let users = [
     {
         id: 1,
@@ -63,7 +64,7 @@ let users = [
         password: 'password2'
     }
 ]
-
+*/
 
 //Setting up the URL: /api/login, handles login requests, responds to front-end
 app.post("/api/login", (req, res, next) => {
@@ -235,6 +236,9 @@ app.get("/api/logout", function(req, res) {
   req.logout();
   return res.send();
 });
+
+let userDB = fs.readFileSync('users.json');
+let users = JSON.parse(userDB).users;
 
 /*Setting up the URL: /api/user, sends user data to the front-end,
 middleware makes sure that the session is valid
