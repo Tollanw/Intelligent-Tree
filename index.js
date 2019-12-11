@@ -128,7 +128,7 @@ app.get("/api/getTweetWithTag", function(req, res) {
   twitter_search.q = tag;
   fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
 
-  //update parsedtweet
+  //update parsedtweet list
   const subprocess = runScript();
   //get new tweet
   let data = fs.readFileSync("tweets_parsed.json");
