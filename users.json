@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Intelligent_Ericsson",
+      "email": "user@email.com",
+      "password": "password",
+      "organization": "Ericsson",
+      "privilege": 2
+    },
+    {
+      "id": 1,
+      "username": "Intelligent_Universeum",
+      "email": "user2@email.com",
+      "password": "password",
+      "organization": "Universeum",
+      "privilege": 1
+    }
+  ]
+}

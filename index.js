@@ -29,6 +29,7 @@ const twitter_search = require("./twitter_search.json");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
+
 //initialize body parser
 app.use(bodyParser.json());
 //initialize cookie session
@@ -49,19 +50,21 @@ var pointer = { Value: 0 };
 
 //mock "database" of users
 let users = [
-  {
-    id: 1,
-    name: "Jude",
-    email: "user@email.com",
-    password: "password"
-  },
-  {
-    id: 2,
-    name: "Emma",
-    email: "emma@email.com",
-    password: "password2"
-  }
-];
+    {
+        id: 1,
+        name: 'Jude',
+        email: 'user@email.com',
+        password: 'password'
+    },
+    {
+        id: 2,
+        name: 'Emma',
+        email: 'emma@email.com',
+        password: 'password2'
+    }
+]
+
+
 //Setting up the URL: /api/login, handles login requests, responds to front-end
 app.post("/api/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
