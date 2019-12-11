@@ -4,6 +4,7 @@ here resides the main code of the back-end
 from davids code
 */
 const express = require('express')
+const fs = require('fs')
 // creating an express instance
 const app = express()
 const cookieSession = require('cookie-session')
@@ -29,6 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session())
 
 //mock "database" of users
+/*
 let users = [
     {
         id: 1,
@@ -43,6 +45,8 @@ let users = [
         password: 'password2'
     }
 ]
+*/
+
 //Setting up the URL: /api/login, handles login requests, responds to front-end
 app.post('/api/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -75,6 +79,8 @@ const authMiddleware = (req, res, next) => {
         return next()
     }
 }
+let userDB = fs.readFileSync('users.json');
+let users = JSON.parse(userDB).users;
 /*Setting up the URL: /api/user, sends user data to the front-end,
 middleware makes sure that the session is valid
 */
@@ -82,8 +88,9 @@ app.get('/api/user', authMiddleware, (req, res) => {
     let user = users.find(user => {
         return user.id === req.session.passport.user
     })
-
+    
     console.log([user, req.session])
+    console.log("privilege: " + req.session._ctx.user.privilege)
 
     res.send({ user: user })
 })
