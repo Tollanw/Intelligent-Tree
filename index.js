@@ -78,71 +78,96 @@ app.post("/api/login", (req, res, next) => {
     });
   })(req, res, next);
 });
+
+//middleware checks authentication
+const authMiddleware = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("You are not authenticated");
+  } else {
+    return next();
+  }
+};
+
 //get the json data
-app.get("/api/twitterdata", function(req, res) {
+app.get("/api/twitterdata",authMiddleware, function(req, res) {
   let data = fs.readFileSync("tweets_parsed.json");
   let tweets = JSON.parse(data);
   res.json(tweets);
 });
 //get a mood-phrase
-app.get("/api/getMood", function(req, res) {
-  let result = jsonQuery("Phrases[*mood=" + req.query.mood + "].phrase", {
-    data: moods
-  }).value;
-  var randomNumber = Math.floor(Math.random() * result.length);
-  res.send(result[randomNumber]);
+app.get("/api/getMood",authMiddleware, function(req, res) {
+  if (!req.query.mood) {
+    //No query tag
+      res.status(422).send("Invalid request");
+  } else {
+    let result = jsonQuery("Phrases[*mood=" + req.query.mood + "].phrase", {
+      data: moods
+    }).value;
+    var randomNumber = Math.floor(Math.random() * result.length);
+    res.send(result[randomNumber]);
+  }
 });
 
 //update the twitterlist with the input
-app.get("/api/setTwitterInfo", function(req, res) {
-  var filter = req.query.filter;
-  var keyword = req.query.keyword;
-  //change the value in the in-memory object
-
-  //update twitter_search
-  if (!(filter.length < 2 || keyword < 2)) {
-    twitter_search.q = keyword;
-    twitter_search.result_type = filter;
-    //Serialize as JSON and Write it to a file
-    fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
-    //reset the twitter_parsed pointer
-    pointer.Value = 0;
-  }
-
-  const subprocess = runScript();
-
-  let data = fs.readFileSync("tweets_parsed.json");
-  let tweets = JSON.parse(data);
-  res.json(tweets);
-  //Twitter search .json
-  //Run script and update twitterlist
-  //send back the updated parsed twitter list
-});
-
-app.get("/api/getTweetWithTag", function(req, res) {
-  //check the cookie. får personen göra detta?
-
-  //Update twitter_search
-  var tag = req.query.tag;
-  console.log("tag: " + tag);
-  twitter_search.q = tag;
-  fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
-
-  //update parsedtweet list
-  const subprocess = runScript();
-  //get new tweet
-  let data = fs.readFileSync("tweets_parsed.json");
-  let tweets = JSON.parse(data);
-  console.log(tweets);
-  //send back tweet to frontend
-  if(tweets.tweets.length<1) {
-    res.send("Hittade ingen tweets med hashtag " + tag);
+app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
+  if (!req.query.filter || !req.query.keyword) {
+    //No query tag
+      res.status(422).send("Invalid request");
   } else {
-    res.send(tweets.tweets[0].text); 
+    var filter = req.query.filter;
+    var keyword = req.query.keyword;
+    //change the value in the in-memory object
+
+    //update twitter_search
+    if (!(filter.length < 2 || keyword < 2)) {
+      twitter_search.q = keyword;
+      twitter_search.result_type = filter;
+      //Serialize as JSON and Write it to a file
+      fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
+      //reset the twitter_parsed pointer
+      pointer.Value = 0;
+    }
+
+    const subprocess = runScript();
+
+    let data = fs.readFileSync("tweets_parsed.json");
+    let tweets = JSON.parse(data);
+    res.json(tweets);
+    //Twitter search .json
+    //Run script and update twitterlist
+    //send back the updated parsed twitter list
   }
 });
 
-app.get("/api/getTweet", function(req,res){
+app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
+  if (!req.query.tag) {
+    //No query tag
+      res.status(422).send("Invalid request");
+  } else {
+    //check the cookie. får personen göra detta?
+
+    //Update twitter_search
+    var tag = req.query.tag;
+    console.log("tag: " + tag);
+    twitter_search.q = tag;
+    fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
+
+    //update parsedtweet list
+    const subprocess = runScript();
+    //get new tweet
+    let data = fs.readFileSync("tweets_parsed.json");
+    let tweets = JSON.parse(data);
+    console.log(tweets);
+    //send back tweet to frontend
+    if(tweets.tweets.length<1) {
+      res.send("Hittade ingen tweets med hashtag " + tag);
+    } else {
+      res.send(tweets.tweets[0].text); 
+    }
+  }
+});
+
+app.get("/api/getTweet",authMiddleware, function(req,res){
     //check the cookie, who?
 
   
@@ -159,40 +184,46 @@ app.get("/api/getTweet", function(req,res){
 
 
 //recording parse, send back the result.
-app.get("/api/speech", function(req, res) {
-  var text = req.query.text;
-  console.log(text);
-
-  if (
-    text.toLowerCase() === "läs en tweet" ||
-    text.toLowerCase() === "läs upp en tweet"
-  ) {
-    //read tweets from file
-    let data = fs.readFileSync("tweets_parsed.json");
-    let tweets = JSON.parse(data);
-    //send back a tweet
-    res.send(tweets.tweets[pointer.Value].text);
-    if (pointer.Value++ >= tweets.tweets.length - 1) {
-      pointer.Value = 0;
-    }
-  } else if (
-    text.toLowerCase().includes("hej") ||
-    text.toLowerCase().includes("tjena")
-  ) {
-    res.send("Tjena kompis");
-  } else if (text.toLowerCase().includes("mamma")) {
-    res.send(
-      "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
-    );
-  } else if (text.toLowerCase() === "hur lång är du") {
-    res.send("Jag vet inte, men jag tror jag är över 30 meter.");
-  } else if (
-    text.toLowerCase().includes("träd") ||
-    text.toLowerCase().includes("cool")
-  ) {
-    res.send("Jag är ett så himla coolt träd.");
+app.get("/api/speech",authMiddleware, function(req, res) {
+  if (!req.query.text) {
+    //No query tag
+      res.status(422).send("Invalid request");
   } else {
-    res.send("Jag förstår inte vad du menar med " + text);
+  
+    var text = req.query.text;
+    console.log(text);
+
+    if (
+      text.toLowerCase() === "läs en tweet" ||
+      text.toLowerCase() === "läs upp en tweet"
+    ) {
+      //read tweets from file
+      let data = fs.readFileSync("tweets_parsed.json");
+      let tweets = JSON.parse(data);
+      //send back a tweet
+      res.send(tweets.tweets[pointer.Value].text);
+      if (pointer.Value++ >= tweets.tweets.length - 1) {
+        pointer.Value = 0;
+      }
+    } else if (
+      text.toLowerCase().includes("hej") ||
+      text.toLowerCase().includes("tjena")
+    ) {
+      res.send("Tjena kompis");
+    } else if (text.toLowerCase().includes("mamma")) {
+      res.send(
+        "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
+      );
+    } else if (text.toLowerCase() === "hur lång är du") {
+      res.send("Jag vet inte, men jag tror jag är över 30 meter.");
+    } else if (
+      text.toLowerCase().includes("träd") ||
+      text.toLowerCase().includes("cool")
+    ) {
+      res.send("Jag är ett så himla coolt träd.");
+    } else {
+      res.send("Jag förstår inte vad du menar med " + text);
+    }
   }
 });
 
@@ -202,14 +233,6 @@ app.get("/api/logout", function(req, res) {
   return res.send();
 });
 
-//middleware checks authentication
-const authMiddleware = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    res.status(401).send("You are not authenticated");
-  } else {
-    return next();
-  }
-};
 /*Setting up the URL: /api/user, sends user data to the front-end,
 middleware makes sure that the session is valid
 */
