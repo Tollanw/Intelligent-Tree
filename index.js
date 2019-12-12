@@ -45,7 +45,7 @@ app.use(passport.initialize());
 //initialize passports session management system
 app.use(passport.session());
 
-//Pointer for the tweetreading
+//Pointer for the tweet-reading, need to add a pointer for each user
 var pointer = { Value: 0 };
 
 //mock "database" of users
@@ -152,7 +152,6 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
 
     //Update twitter_search
     var tag = req.query.tag;
-    console.log("tag: " + tag);
     twitter_search.q = tag;
     fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
 
@@ -161,7 +160,6 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
     //get new tweet
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
-    console.log(tweets);
     //send back tweet to frontend
     if(tweets.tweets.length<1) {
       res.status(204).send("Hittade ingen tweets med hashtag " + tag);
@@ -170,20 +168,31 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
     }
   }
 });
-
+//under development
 app.get("/api/getTweet",authMiddleware, function(req,res){
+    
     //check the cookie, who?
-
-  
+    
     //read tweets from file
-    let data = fs.readFileSync("tweets_parsed.json");
-    let tweets = JSON.parse(data);
-    //send back a tweet
-    res.status(501).send(tweets.tweets[pointer.Value].text);
-    if (pointer.Value++ >= tweets.tweets.length - 1) {
+    let data = fs.readFileSync("timeline_parsed_tweets.json");
+    let timeline_tweets = JSON.parse(data);
+    
+    //get a tweet, pointer
+    //TODO: add a pointer for each user
+    let tweet = timeline_tweets.tweets[pointer.Value].text;
+
+    //update pointer for the specific user
+    if (pointer.Value++ >= timeline_tweets.tweets.length - 1) {
+      //if all tweets have been read. Update tweetslist for the user (run script)
+      //runscript
+      //set pointer to zero
       pointer.Value = 0;
     }
-  
+    //status code 501 = this has not been implemented
+    res.status(501).send("Not implemented");
+
+    //send back the tweet
+    //res.status(200).send(tweet);
 });
 
 
@@ -193,9 +202,8 @@ app.get("/api/speech",authMiddleware, function(req, res) {
     //No query tag
       res.status(422).send("Invalid request");
   } else {
-  
+    //get text
     var text = req.query.text;
-    console.log(text);
 
     if (
       text.toLowerCase() === "läs en tweet" ||
