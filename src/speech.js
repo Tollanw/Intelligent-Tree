@@ -1,6 +1,8 @@
 /**
- * speech.js has control over the text to speech
- * 
+ * @class speech.js
+ * @class has control over the text to speech
+ * @constructor init the options for speech synthesis, get voice
+ * @version 1.0
  */
 
 export default class TextToSpeech {

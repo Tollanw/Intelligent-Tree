@@ -1,6 +1,8 @@
 /**
- * recognition.js has control over the speech to text
- * 
+ * @class recognition.js 
+ * @classdesc has control over the speech to text
+ * @constructor init the recognition and creating a speech object
+ * @version 1.0
  */
 import Speech from "./speech.js";
 //Axios is used to send requests to server
