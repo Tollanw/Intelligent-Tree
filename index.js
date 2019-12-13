@@ -229,7 +229,6 @@ app.get("/api/getTweet",authMiddleware, function(req,res){
  * Takes text as parameter in the request
  * Returns a phrase as answer to the request
  */
-//recording parse, send back the result.
 app.get("/api/speech",authMiddleware, function(req, res) {
   if (!req.query.text) {
     //No query tag
