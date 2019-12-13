@@ -1,4 +1,9 @@
+/**
+ * recognition.js has control over the speech to text
+ * 
+ */
 import Speech from "./speech.js";
+//Axios is used to send requests to server
 import axios from "axios";
 export default class SpeechToText {
   constructor() {
@@ -6,8 +11,12 @@ export default class SpeechToText {
     this.initRecognition();
     this.speech = new Speech();
   }
-  //Init the recognition software
   //Maybe we should add grammar for the recognition, change some weight-values regarding trees etc.?
+  /**
+   * Init the recognition software, the recognition variable
+   * If recognition exists in browser, an recognition object is created
+   * If not, sets the recognition-object to false
+   */
   initRecognition() {
     //Check if recognition is available, if not: set recognition to false
     this.recognition =
@@ -26,7 +35,12 @@ export default class SpeechToText {
       this.recognition.continuous = true;
     }
   }
+  /**
+   * Starts the recognition
+   * The tree starts listening to the user
+   * If recognition does not exists, the message will be: "SpeechRecognition är inte tillgängligt";
 
+   */
   listen() {
     if (this.recognition == false) {
       document.getElementById("message").innerHTML =
@@ -50,6 +64,8 @@ export default class SpeechToText {
       console.log("No voice. Recognition has stopped.");
     };
 
+
+    //refrence to the speech object and speak function
     let speech = this.speech;
     function talk(text) {
       speech.speak(text);
@@ -62,6 +78,7 @@ export default class SpeechToText {
         transcript.toLowerCase().includes("#")) {        
         const words = transcript.split(" ");
         for (var i = 0; i <= words.length; i++) {
+          //send request to get tweet with tag
           if (words[i].includes("#")) {
             axios
               .get("/api/getTweetWithTag", {
@@ -79,6 +96,7 @@ export default class SpeechToText {
           }
         }
       } else {
+        //send request to speech
         axios
           .get("/api/speech", {
             params: {
@@ -96,7 +114,9 @@ export default class SpeechToText {
       document.getElementById("message").innerHTML = transcript;
     };
   }
-  //stop the recognition manually
+  /**
+   * Stops the recognition
+   */
   stopSpeechRecognition = () => {
     if (this.recognition == false) {
       console.log("Recognition does not work");

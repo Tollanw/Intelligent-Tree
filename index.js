@@ -92,13 +92,20 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-//get the json data
+/**
+ * A get request. 
+ * Returns a json object with all the parsed tweets
+ */
 app.get("/api/twitterdata",authMiddleware, function(req, res) {
   let data = fs.readFileSync("tweets_parsed.json");
   let tweets = JSON.parse(data);
   res.json(tweets);
 });
-//get a mood-phrase
+/**
+ * Takes a mood as query-input in the request
+ * The mood can be either 1 or 2. 1 means happy, 2 means sad.
+ * Returns a string 
+ */
 app.get("/api/getMood",authMiddleware, function(req, res) {
   if (!req.query.mood) {
     //No query tag
@@ -111,7 +118,13 @@ app.get("/api/getMood",authMiddleware, function(req, res) {
     res.send(result[randomNumber]);
   }
 });
-
+/**
+ * Update the twitter_search.json used for sending twitter-requests
+ * Takes filter and keyword as parameters in the query request
+ * Filter: can be either recent or popular, (string)
+ * Keyword: A string
+ * Returns a new json-object with all the tweets 
+ */
 //update the twitterlist with the input
 app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
   if (!req.query.filter || !req.query.keyword) {
@@ -138,11 +151,14 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
     let tweets = JSON.parse(data);
     res.status(200).json(tweets);
     //Twitter search .json
-    //Run script and update twitterlist
-    //send back the updated parsed twitter list
   }
 });
-
+/**
+ * Get tweet with a specific tag/hashtag
+ * Takes a tag as parameter in the query request
+ * Tag should be a string
+ * Response is a tweet with the specific tag 
+ */
 app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
   if (!req.query.tag) {
     //No query tag
@@ -168,7 +184,10 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
     }
   }
 });
-//under development
+/**
+ * Is under development
+ * Returns a tweet
+ */
 app.get("/api/getTweet",authMiddleware, function(req,res){
     
     //check the cookie, who?
@@ -195,7 +214,10 @@ app.get("/api/getTweet",authMiddleware, function(req,res){
     //res.status(200).send(tweet);
 });
 
-
+/**
+ * Takes text as parameter in the request
+ * Returns a phrase as answer to the request
+ */
 //recording parse, send back the result.
 app.get("/api/speech",authMiddleware, function(req, res) {
   if (!req.query.text) {
