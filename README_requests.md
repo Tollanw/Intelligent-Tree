@@ -1,4 +1,4 @@
-Rest API : Different kind of requests
+README_requests
 --------------------------------------
 
 ### Request: /api/login
