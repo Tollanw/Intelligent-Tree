@@ -21,7 +21,6 @@ export default class TextToSpeech {
    */
   getVoices = () => {
     this.available_voices = window.speechSynthesis.getVoices();
-    console.log(this.available_voices);
     let findVoice = this.findVoice;
     if (this.available_voices.length == 0) {
       window.speechSynthesis.addEventListener("voiceschanged", function() {

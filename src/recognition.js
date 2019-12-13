@@ -49,23 +49,13 @@ export default class SpeechToText {
     }
     //start the recognition
     this.recognition.start();
-    console.log("Recording started");
 
     //is called if a error occur
-    this.recognition.onerror = function() {
-      console.log("Error! Something went wrong.");
+    this.recognition.onerror = function(error) {
+      this.errors.push(error);
     };
-    //is called when recognition starts
-    this.recognition.onstart = function() {
-      console.log("Recognition activated. Start talking.");
-    };
-    //is called when the speech ends
-    this.recognition.onend = function() {
-      console.log("No voice. Recognition has stopped.");
-    };
-
-
-    //refrence to the speech object and speak function
+   
+    //reference to the speech object and speak function
     let speech = this.speech;
     function talk(text) {
       speech.speak(text);
@@ -91,12 +81,11 @@ export default class SpeechToText {
               })
               .catch(error => {
                 this.errors.push(error);
-                console.log(error);
               });
           }
         }
       } else {
-        //send request to speech
+        //send request to /api/speech
         axios
           .get("/api/speech", {
             params: {
@@ -108,7 +97,6 @@ export default class SpeechToText {
           })
           .catch(error => {
             this.errors.push(error);
-            console.log(error);
           });
       }
       document.getElementById("message").innerHTML = transcript;
@@ -116,13 +104,12 @@ export default class SpeechToText {
   }
   /**
    * Stops the recognition
+   * If recognition does not work this function will just return
    */
   stopSpeechRecognition = () => {
     if (this.recognition == false) {
-      console.log("Recognition does not work");
       return;
     }
     this.recognition.stop();
-    console.log("Recognition has stopped by user");
   };
 }
