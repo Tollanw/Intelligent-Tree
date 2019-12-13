@@ -1,4 +1,4 @@
-/*
+/** 
 Back-end Index Javascript file
 here resides the main code of the back-end
 from davids code
@@ -45,7 +45,10 @@ app.use(passport.initialize());
 //initialize passports session management system
 app.use(passport.session());
 
-//Pointer for the tweet-reading, need to add a pointer for each user
+/**
+ * Pointer for the tweet-reading, need to add a pointer for each user
+ * @todo Add pointer for each user
+ */
 var pointer = { Value: 0 };
 
 //mock "database" of users
@@ -105,6 +108,7 @@ app.get("/api/twitterdata",authMiddleware, function(req, res) {
  * Takes a mood as query-input in the request
  * The mood can be either 1 or 2. 1 means happy, 2 means sad.
  * Returns a string 
+ * @requires data.json
  */
 app.get("/api/getMood",authMiddleware, function(req, res) {
   if (!req.query.mood) {
@@ -124,6 +128,9 @@ app.get("/api/getMood",authMiddleware, function(req, res) {
  * Filter: can be either recent or popular, (string)
  * Keyword: A string
  * Returns a new json-object with all the tweets 
+ * @requires twitter_search
+ * @requires twitter_parsed
+ * @requires fs
  */
 //update the twitterlist with the input
 app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
@@ -158,6 +165,9 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
  * Takes a tag as parameter in the query request
  * Tag should be a string
  * Response is a tweet with the specific tag 
+ * @requires twitter_search
+ * @requires twitter_parsed
+ * @requires fs
  */
 app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
   if (!req.query.tag) {
@@ -185,8 +195,9 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
   }
 });
 /**
- * Is under development
- * Returns a tweet
+ * @todo Id under development
+ * @requires timeline_parsed_tweets
+ * Returns a tweet in the response
  */
 app.get("/api/getTweet",authMiddleware, function(req,res){
     
