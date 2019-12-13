@@ -12,6 +12,7 @@
 
 <script>
 import Speech from "../speech";
+//Axios is used for sending requests
 import axios from "axios";
 
 export default {
@@ -22,6 +23,11 @@ export default {
     };
   },
   methods: {
+    /**
+     * Sends a request to /api/getMood to retrieve a phrase regarding the mood 
+     * The phrase is then spoken by the speak(text)-method
+     * @param {number} currentModd Can be either 1 or 2, 1=happy, 2=sad
+     */
     getMood: function(currentMood) {
       axios
         .get("/api/getMood", {
@@ -30,12 +36,11 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          //speak the result
           this.speak(res.data);
         })
         .catch(error => {
           this.errors.push(error);
-          console.log(error);
         });
     },
     speak(text) {
