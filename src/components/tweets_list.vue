@@ -44,6 +44,9 @@ export default {
       reading: false
     };
   },
+  /**
+   * On created : update the twitterlist
+   */
   async created() {
     this.getTwitterData();
   },
@@ -61,11 +64,15 @@ export default {
           console.log(error);
         });
     },
+    /**
+     * Sends request to /api/setTwitterInfo
+     * The keyword and filter input textboxes values are sent to server 
+     * Updates the tweetslist
+     */
     setTwitterInfo: function(){
       var keyInput = document.getElementById("keyword").value;
       var filterInput = document.getElementById("filter").value;
       if (keyInput == null || filterInput == null) {
-        alert("Wrong input");
         return;
       }
       axios
@@ -80,19 +87,15 @@ export default {
         })
         .catch(error => {
           this.errors.push(error);
-          console.log(error);
         });
     },
-
+    
     speak(text) {
       return this.speech.speak(text);
     },
     tweet_update() {
       var keyword = document.getElementById("keyword").value;
       var filter = document.getElementById("filter").value;
-      console.log(keyword + "   " + filter);
-
-      // require('../../runPython.js');
     },
     listen() {
       this.synth.cancel();
