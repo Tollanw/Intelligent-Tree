@@ -29,6 +29,17 @@ const twitter_search = require("./twitter_search.json");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
+//user database
+let userDB = fs.readFileSync('users.json');
+let users = JSON.parse(userDB).users;
+
+/**
+ * Pointer for the tweet-reading, each user has a pointer
+ */
+let userPointers=[];
+for(var i=0;i<users.length; i++) {
+  userPointers[i]={"id": users[i].id, "pointer":0};
+}
 
 //initialize body parser
 app.use(bodyParser.json());
@@ -44,30 +55,6 @@ app.use(
 app.use(passport.initialize());
 //initialize passports session management system
 app.use(passport.session());
-
-/**
- * Pointer for the tweet-reading, need to add a pointer for each user
- * @todo Add pointer for each user
- */
-var pointer = { Value: 0 };
-
-//mock "database" of users
-/*
-let users = [
-    {
-        id: 1,
-        name: 'Jude',
-        email: 'user@email.com',
-        password: 'password'
-    },
-    {
-        id: 2,
-        name: 'Emma',
-        email: 'emma@email.com',
-        password: 'password2'
-    }
-]
-*/
 
 //Setting up the URL: /api/login, handles login requests, responds to front-end
 app.post("/api/login", (req, res, next) => {
@@ -148,8 +135,6 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
       twitter_search.result_type = filter;
       //Serialize as JSON and Write it to a file
       fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
-      //reset the twitter_parsed pointer
-      pointer.Value = 0;
     }
 
     const subprocess = runScript();
@@ -200,29 +185,33 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
  * Returns a tweet in the response
  */
 app.get("/api/getTweet",authMiddleware, function(req,res){
-    
-    //check the cookie, who?
-    
+    var reqUserId = req.user.id;  
+    var indexPointer;
+    for (var i=0; i<userPointers.length; i++) {
+      if(userPointers[i].id == reqUserId){
+        indexPointer=i;
+      }
+    }
+
     //read tweets from file
     let data = fs.readFileSync("timeline_parsed_tweets.json");
     let timeline_tweets = JSON.parse(data);
     
     //get a tweet, pointer
-    //TODO: add a pointer for each user
-    let tweet = timeline_tweets.tweets[pointer.Value].text;
+    let tweet = timeline_tweets.tweets[userPointers[indexPointer].pointer].text;
 
     //update pointer for the specific user
-    if (pointer.Value++ >= timeline_tweets.tweets.length - 1) {
+    if (userPointers[indexPointer].pointer++ >= timeline_tweets.tweets.length - 1) {
       //if all tweets have been read. Update tweetslist for the user (run script)
       //runscript
       //set pointer to zero
-      pointer.Value = 0;
+      userPointers[indexPointer].pointer = 0;
     }
     //status code 501 = this has not been implemented
-    res.status(501).send("Not implemented");
+    //res.status(501).send("Not implemented");
 
     //send back the tweet
-    //res.status(200).send(tweet);
+    res.status(200).send(tweet);
 });
 
 /**
@@ -245,9 +234,9 @@ app.get("/api/speech",authMiddleware, function(req, res) {
       let data = fs.readFileSync("tweets_parsed.json");
       let tweets = JSON.parse(data);
       //send back a tweet
-      res.send(tweets.tweets[pointer.Value].text);
-      if (pointer.Value++ >= tweets.tweets.length - 1) {
-        pointer.Value = 0;
+      res.send(tweets.tweets[userPointers[0].pointer].text);
+      if (userPointers[0].pointer++ >= tweets.tweets.length - 1) {
+        userPointers[0].pointer = 0;
       }
     } else if (
       text.toLowerCase().includes("hej") ||
@@ -277,8 +266,6 @@ app.get("/api/logout", function(req, res) {
   return res.send();
 });
 
-let userDB = fs.readFileSync('users.json');
-let users = JSON.parse(userDB).users;
 
 /*Setting up the URL: /api/user, sends user data to the front-end,
 middleware makes sure that the session is valid
