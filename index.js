@@ -186,11 +186,17 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
  */
 app.get("/api/getTweet",authMiddleware, function(req,res){
     var reqUserId = req.user.id;  
-    var indexPointer;
+    var indexPointer=null;
     for (var i=0; i<userPointers.length; i++) {
       if(userPointers[i].id == reqUserId){
         indexPointer=i;
       }
+    }
+    if(indexPointer == null) {
+      //Request user id don't match userPointers db.
+      //TODO - try to update pointers. Get users, see if a new user has been added.
+      res.status(403).send("Hittar ingen matchande pekare till användaren.");
+      return;
     }
 
     //read tweets from file
