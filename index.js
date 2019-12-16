@@ -139,7 +139,7 @@ app.get("/api/setTwitterInfo", authMiddleware, function(req, res) {
       fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
     }
 
-    searchForTweets();
+    runScript("0", "not");
 
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
@@ -175,7 +175,8 @@ app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
     fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
 
     //update parsedtweet list
-    searchForTweets();
+    runScript("0", "not");
+
     //get new tweet
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
@@ -213,7 +214,7 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   let timeline_tweets = JSON.parse(data);
   if (timeline_tweets.tweets.length<1) {
     //try to update twittertimeline
-    updateTwitterTimeLine();
+    runScript(userPointers[indexPointer].id, "follow");
     //reset pointer
     userPointers[indexPointer].pointer = 0;
     //reread the file
@@ -234,7 +235,7 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
     timeline_tweets.tweets.length - 1
   ) {
     //if all tweets have been read. Update tweettimeline for the user (run script)
-    updateTwitterTimeLine();
+    runScript(userPointers[indexPointer].id, "follow");
     //set pointer to zero
     userPointers[indexPointer].pointer = 0;
   }
@@ -348,28 +349,14 @@ app.listen(8080, () => {
 app.get("/", (req, res, next) => {
   res.sendFile("index.html", { root: publicRoot });
 });
-function searchForTweets() {
-  return spawnSync("python", [
-    "-u",
-    path.join("", "twitter_search.py"),
-    "--foo",
-    "some value for foo"
-  ]);
-}
-function updateTwitterTimeLine() {
-  return spawnSync("python", [
-    "-u",
-    path.join("", "twitter_FollowUser.py"),
-    "--foo",
-    "some value for foo"
-  ]);
-}
+
+
 
 //Method to run the python code to update the tweet list.
-function runScript(){
+function runScript(id, follow){
     return spawn('python', [
       "-u", 
       path.join("", 'twitter_search.py'),
-      "--foo", "0", "Not"
+      "--foo", id, follow
     ]);
   }

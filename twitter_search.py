@@ -22,9 +22,9 @@ def twitter_search():
     with open("twitter_Auth.json") as auth:
         data = json.load(auth)
         if sys.argv[3] == "follow":
-            with open("test.json", "r") as users:
+            with open("users.json", "r") as users:
                 userData = json.load(users)
-                account = userData["users"][sys.argv[2]]
+                account = userData["follows"][sys.argv[2]]
                 for user in account:
                     followUser(data,user)
         else:
