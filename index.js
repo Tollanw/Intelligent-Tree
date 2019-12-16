@@ -250,7 +250,9 @@ app.get("/api/getTweet", authMiddleware, function (req, res) {
   //check the cookie, who?
   let cookies = cookie.parse(req.headers.cookie);
   let phrasePointer = cookies.phrasePointer;
-  console.log(phrasePointer);
+  if(!phrasePointer) {
+    phrasePointer=0;
+  }
   var user = req.user;
   //read tweets from file
 
@@ -419,7 +421,7 @@ app.get("/api/user", authMiddleware, (req, res) => {
     
 
   //console.log([user, req.session]);
-    res.setHeader('Set-Cookie', 'phrasePointer=0');
+  res.setHeader('Set-Cookie', 'phrasePointer=0');
   res.send({ user: user });
 });
 //specifying how passport.js will log us in, triggered by passport.authenticate called by login
