@@ -180,12 +180,10 @@ app.get("/api/getTweet",authMiddleware, function(req,res){
     //read tweets from file
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
-    phrasePointer++;
-    /*
+    
     if (phrasePointer++ >= tweets.tweets.length - 1) {
         phrasePointer = 0;
     }
-    */
     //send back a tweet
     res.setHeader('Set-Cookie', 'phrasePointer=' + phrasePointer);
     res.status(501).send(tweets.tweets[phrasePointer].text);
