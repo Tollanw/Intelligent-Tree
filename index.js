@@ -247,47 +247,117 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
  * Takes text as parameter in the request
  * Returns a phrase as answer to the request
  */
-app.get("/api/speech", authMiddleware, function(req, res) {
-  if (!req.query.text) {
-    //No query tag
-    res.status(422).send("Invalid request");
-  } else {
-    //get text
-    var text = req.query.text;
 
-    if (
-      text.toLowerCase() === "läs en tweet" ||
-      text.toLowerCase() === "läs upp en tweet"
-    ) {
-      //read tweets from file
-      let data = fs.readFileSync("tweets_parsed.json");
-      let tweets = JSON.parse(data);
-      //send back a tweet
-      res.send(tweets.tweets[userPointers[0].pointer].text);
-      if (userPointers[0].pointer++ >= tweets.tweets.length - 1) {
-        userPointers[0].pointer = 0;
-      }
-    } else if (
-      text.toLowerCase().includes("hej") ||
-      text.toLowerCase().includes("tjena")
-    ) {
-      res.send("Tjena kompis");
-    } else if (text.toLowerCase().includes("mamma")) {
-      res.send(
-        "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
-      );
-    } else if (text.toLowerCase() === "hur lång är du") {
-      res.send("Jag vet inte, men jag tror jag är över 30 meter.");
-    } else if (
-      text.toLowerCase().includes("träd") ||
-      text.toLowerCase().includes("cool")
-    ) {
-      res.send("Jag är ett så himla coolt träd.");
-    } else {
-      res.send("Jag förstår inte vad du menar med " + text);
-    }
+app.get("/api/speech", function(req, res) {
+  var text = req.query.text;
+  console.log(text);
+
+  var randomNumber;
+  var answears;
+  if(checkIfquestion(text)){
+		//var str = text;
+		if(text.toLowerCase().includes("hur mår")){
+			answears = jsonQuery('Phrases[*type = AnswearWell].phrase',{
+				data:moods
+			}).value
+			randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("hur lång")){
+			answears = jsonQuery('Phrases[*type = AnswearTall].phrase',{
+				data:moods
+			}).value
+			randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("vart kommer")){
+			answears = jsonQuery('Phrases[*type = AnswearFrom].phrase',{
+				data:moods
+			}).value
+			randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("vad är du")){
+			answears = jsonQuery('Phrases[*type = AnswearIs].phrase',{
+				data:moods
+			}).value
+			randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+
+	}
+	
+	if(text.toLowerCase().includes("hej") || text.toLowerCase().includes("hallå") || text.toLowerCase().includes("goddag")){
+		answears = jsonQuery('Phrases[*type = Greeting].phrase',{
+			data:moods
+		}).value
+		randomNumber = Math.floor(Math.random() * answears.length);
+		console.log(answears[randomNumber]);
+    res.send(answears[randomNumber]);
+    return;
   }
+  
+	if(text.toLowerCase().includes("info")){
+		answears = jsonQuery('Phrases[*type = info].phrase',{
+			data:moods
+		}).value
+		randomNumber = Math.floor(Math.random() * answears.length);
+		console.log(answears[randomNumber]);
+    res.send(answears[randomNumber]);
+    return;
+	}
+	else{
+		answears = jsonQuery('Phrases[*type = default].phrase',{
+			data:moods
+		}).value
+		randomNumber = Math.floor(Math.random() * answears.length);
+    res.send(answears[randomNumber]);
+    return;
+	}
+
+
+
+
+
+  /*
+  if (
+    text.toLowerCase().includes("hej") ||
+    text.toLowerCase().includes("tjena")
+  ) {
+    res.send("Tjena kompis");
+  } else if (text.toLowerCase().includes("mamma")) {
+    res.send(
+      "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
+    );
+  } else if (text.toLowerCase() === "hur lång är du") {
+    res.send("Jag vet inte, men jag tror jag är över 30 meter.");
+  } else if (
+    text.toLowerCase().includes("träd") ||
+    text.toLowerCase().includes("cool")
+  ) {
+    res.send("Jag är ett så himla coolt träd.");
+  } else {
+    res.send("Jag förstår inte vad du menar med " + text);
+  }*/
 });
+
+function checkIfquestion(text){
+  var str = text;
+  if(str.toLowerCase().includes("hur mår") || str.toLowerCase().includes("hur lång") || str.toLowerCase().includes("vart kommer du") || str.toLowerCase().includes("vad är du")){
+    return true
+  } else {
+    return false
+  }
+}
+
 
 //Setting up the URL: /api/logout, expires cookie session
 app.get("/api/logout", function(req, res) {
