@@ -54,18 +54,15 @@ def get_tweets(creds):
 
 def followUser(creds, i, Account):
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
-    with open("twitter_timeline.json", "r") as file:
-        timeline = json.load(file)
-
     with open("timeline_parsed_tweets.json", "r") as reader:
         data = json.load(reader)
         data['tweets'][0][Account] = []
         
         
     with open("timeline_parsed_tweets.json", "w") as write:
-        for status in python_tweets.get_user_timeline(screen_name = timeline["users"][i]["screen_name"],
-            tweet_mode = timeline["users"][i]["tweet_mode"], count = timeline["users"][i]["count"],
-            exclude_replies = timeline["users"][i]["exclude_replies"]):
+        for status in python_tweets.get_user_timeline(screen_name = Account,
+            tweet_mode = "extended", count = 5,
+            exclude_replies = "true"):
             if not forbiddenTweet(status["full_text"]):
                 data['tweets'][0][Account].append({
                     'user' : status['user']['screen_name'],

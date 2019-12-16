@@ -167,6 +167,6 @@ function runScript(){
     return spawn('python', [
       "-u", 
       path.join("", 'twitter_search.py'),
-      "--foo", "0", "follow"
+      "--foo", "0", "Not"
     ]);
   }
