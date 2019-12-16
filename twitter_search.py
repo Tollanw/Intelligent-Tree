@@ -10,6 +10,7 @@ import threading, time
 import json
 from twython import Twython
 import re
+import sys
 
 def push_tweets_to_rasberry():
     command = "curl -d @parsed_tweets.json --header 'Content-type:application/json' -X POST http://<IP_ADDRESS:PORT>/tweets>" 
@@ -20,7 +21,15 @@ def twitter_search():
     #Loads the Auth json file VERY crucial.
     with open("twitter_Auth.json") as auth:
         data = json.load(auth)
-        get_tweets(data)
+        if sys.argv[3] == "follow":
+            with open("test.json", "r") as users:
+                userData = json.load(users)
+                account = userData["users"][sys.argv[2]]
+                for user in account:
+                    followUser(data,user)
+        else:
+             get_tweets(data)
+        
 
 def get_tweets(creds):
     # Load the query for a search from json file
@@ -40,7 +49,27 @@ def get_tweets(creds):
                     'date' : status['created_at'],
                     'text' : filterString(status["full_text"])
                 })
+
         json.dump(output,file)
+
+def followUser(creds,user):
+    python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
+    with open("timeline_parsed_tweets.json", "r") as reader:
+        data = json.load(reader)
+        data['tweets'][0][user] = []
+        
+        
+    with open("timeline_parsed_tweets.json", "w") as write:
+        for status in python_tweets.get_user_timeline(screen_name = user,
+            tweet_mode = "extended", count = 5,
+            exclude_replies = "true"):
+            if not forbiddenTweet(status["full_text"]):
+                data['tweets'][0][user].append({
+                    'user' : status['user']['screen_name'],
+                    'date' : status['created_at'],
+                    'text' : filterString(status["full_text"])
+                })
+        json.dump(data, write)
 
 #Filter Section of code            
 def filterString(text):

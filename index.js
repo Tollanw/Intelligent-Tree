@@ -364,3 +364,12 @@ function updateTwitterTimeLine() {
     "some value for foo"
   ]);
 }
+
+//Method to run the python code to update the tweet list.
+function runScript(){
+    return spawn('python', [
+      "-u", 
+      path.join("", 'twitter_search.py'),
+      "--foo", "0", "Not"
+    ]);
+  }
