@@ -9,7 +9,9 @@
       "privilege": 2,
       "follows": [
         "Ericssonsverige",
-        "Google"
+        "nyteknik",
+        "RISEsweden"
+
       ]
     },
     {
@@ -20,7 +22,8 @@
       "organization": "Universeum",
       "privilege": 1,
       "follows": [
-          "Ericssonsverige"
+          "Ericssonsverige",
+          "dagensindustri"
       ]
     }
   ]
