@@ -8,7 +8,7 @@ def twitter_search(i):
     #Loads the Auth json file VERY crucial.
     with open("twitter_Auth.json", "r") as auth:
         data = json.load(auth)
-        Account = "Elajjaz"
+        Account = "Forsen"
         followUser(data,i,Account)
 
 def followUser(creds, i, Account):
@@ -22,7 +22,7 @@ def followUser(creds, i, Account):
         
         
     with open("timeline_parsed_tweets.json", "w") as write:
-        for status in python_tweets.get_user_timeline(screen_name = timeline["users"][i]["screen_name"],
+        for status in python_tweets.get_user_timeline(screen_name = Account,
             tweet_mode = timeline["users"][i]["tweet_mode"], count = timeline["users"][i]["count"],
             exclude_replies = timeline["users"][i]["exclude_replies"]):
             if not forbiddenTweet(status["full_text"]):

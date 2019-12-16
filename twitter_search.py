@@ -24,9 +24,9 @@ def twitter_search():
         if sys.argv[3] == "follow":
             with open("test.json", "r") as users:
                 userData = json.load(users)
-                account = userData["users"][sys.argv[4]]
+                account = userData["users"][sys.argv[2]]
                 for user in account:
-                    followUser(data,sys.argv[2],user)
+                    followUser(data,user)
         else:
              get_tweets(data)
         
@@ -52,19 +52,19 @@ def get_tweets(creds):
 
         json.dump(output,file)
 
-def followUser(creds, i, Account):
+def followUser(creds,user):
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     with open("timeline_parsed_tweets.json", "r") as reader:
         data = json.load(reader)
-        data['tweets'][0][Account] = []
+        data['tweets'][0][user] = []
         
         
     with open("timeline_parsed_tweets.json", "w") as write:
-        for status in python_tweets.get_user_timeline(screen_name = Account,
+        for status in python_tweets.get_user_timeline(screen_name = user,
             tweet_mode = "extended", count = 5,
             exclude_replies = "true"):
             if not forbiddenTweet(status["full_text"]):
-                data['tweets'][0][Account].append({
+                data['tweets'][0][user].append({
                     'user' : status['user']['screen_name'],
                     'date' : status['created_at'],
                     'text' : filterString(status["full_text"])
