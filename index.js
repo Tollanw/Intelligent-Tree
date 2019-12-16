@@ -28,18 +28,20 @@ const twitter_search = require("./twitter_search.json");
 //For running python
 const path = require("path");
 const { spawnSync } = require("child_process");
+const { spawn } = require("child_process");
 
 //user database
-let userDB = fs.readFileSync('users.json');
+let userDB = fs.readFileSync("users.json");
 let users = JSON.parse(userDB).users;
 
 /**
  * Pointer for the tweet-reading, each user has a pointer
  */
-let userPointers=[];
-for(var i=0;i<users.length; i++) {
-  userPointers[i]={"id": users[i].id, "pointer":0};
+let userPointers = [];
+for (var i = 0; i < users.length; i++) {
+  userPointers[i] = { id: users[i].id, name: users[i].username, pointer: 0 };
 }
+console.log(userPointers);
 
 //initialize body parser
 app.use(bodyParser.json());
@@ -83,10 +85,10 @@ const authMiddleware = (req, res, next) => {
 };
 
 /**
- * A get request. 
+ * A get request.
  * Returns a json object with all the parsed tweets
  */
-app.get("/api/twitterdata",authMiddleware, function(req, res) {
+app.get("/api/twitterdata", authMiddleware, function(req, res) {
   let data = fs.readFileSync("tweets_parsed.json");
   let tweets = JSON.parse(data);
   res.json(tweets);
@@ -94,13 +96,13 @@ app.get("/api/twitterdata",authMiddleware, function(req, res) {
 /**
  * Takes a mood as query-input in the request
  * The mood can be either 1 or 2. 1 means happy, 2 means sad.
- * Returns a string 
+ * Returns a string
  * @requires data.json
  */
-app.get("/api/getMood",authMiddleware, function(req, res) {
+app.get("/api/getMood", authMiddleware, function(req, res) {
   if (!req.query.mood) {
     //No query tag
-      res.status(422).send("Invalid request");
+    res.status(422).send("Invalid request");
   } else {
     let result = jsonQuery("Phrases[*mood=" + req.query.mood + "].phrase", {
       data: moods
@@ -114,16 +116,16 @@ app.get("/api/getMood",authMiddleware, function(req, res) {
  * Takes filter and keyword as parameters in the query request
  * Filter: can be either recent or popular, (string)
  * Keyword: A string
- * Returns a new json-object with all the tweets 
+ * Returns a new json-object with all the tweets
  * @requires twitter_search
  * @requires twitter_parsed
  * @requires fs
  */
 //update the twitterlist with the input
-app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
+app.get("/api/setTwitterInfo", authMiddleware, function(req, res) {
   if (!req.query.filter || !req.query.keyword) {
     //No query tag
-      res.status(422).send("Invalid request");
+    res.status(422).send("Invalid request");
   } else {
     var filter = req.query.filter;
     var keyword = req.query.keyword;
@@ -137,7 +139,7 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
       fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
     }
 
-    const subprocess = runScript();
+    searchForTweets();
 
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
@@ -149,15 +151,15 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
  * Get tweet with a specific tag/hashtag
  * Takes a tag as parameter in the query request
  * Tag should be a string
- * Response is a tweet with the specific tag 
+ * Response is a tweet with the specific tag
  * @requires twitter_search
  * @requires twitter_parsed
  * @requires fs
  */
-app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
+app.get("/api/getTweetWithTag", authMiddleware, function(req, res) {
   if (!req.query.tag) {
     //No query tag
-      res.status(422).send("Invalid request");
+    res.status(422).send("Invalid request");
   } else {
     //check the cookie. får personen göra detta?
 
@@ -167,15 +169,15 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
     fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
 
     //update parsedtweet list
-    const subprocess = runScript();
+    searchForTweets();
     //get new tweet
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
     //send back tweet to frontend
-    if(tweets.tweets.length<1) {
+    if (tweets.tweets.length < 1) {
       res.status(204).send("Hittade ingen tweets med hashtag " + tag);
     } else {
-      res.send(tweets.tweets[0].text); 
+      res.send(tweets.tweets[0].text);
     }
   }
 });
@@ -184,50 +186,65 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
  * @requires timeline_parsed_tweets
  * Returns a tweet in the response
  */
-app.get("/api/getTweet",authMiddleware, function(req,res){
-    var reqUserId = req.user.id;  
-    var indexPointer=null;
-    for (var i=0; i<userPointers.length; i++) {
-      if(userPointers[i].id == reqUserId){
-        indexPointer=i;
-      }
+app.get("/api/getTweet", authMiddleware, function(req, res) {
+  var reqUserId = req.user.id;
+  var indexPointer = null;
+  for (var i = 0; i < userPointers.length; i++) {
+    if (userPointers[i].id == reqUserId) {
+      indexPointer = i;
     }
-    if(indexPointer == null) {
-      //Request user id don't match userPointers db.
-      //TODO - try to update pointers. Get users, see if a new user has been added.
-      res.status(403).send("Hittar ingen matchande pekare till användaren.");
+  }
+  if (indexPointer == null) {
+    //Request user id don't match userPointers db.
+    //TODO - try to update pointers. Get users, see if a new user has been added.
+    res.status(403).send("No tweets-pointer found for this user.");
+    return;
+  }
+
+  //read tweets from file
+
+  let data = fs.readFileSync("timeline_parsed_tweets.json");
+  let timeline_tweets = JSON.parse(data);
+  if (timeline_tweets.tweets.length<1) {
+    //try to update twittertimeline
+    updateTwitterTimeLine();
+    //reset pointer
+    userPointers[indexPointer].pointer = 0;
+    //reread the file
+    data = fs.readFileSync("timeline_parsed_tweets.json");
+    timeline_tweets = JSON.parse(data);
+    if(timeline_tweets.tweets.length<1) {
+      res.status(403).send("Cannot find any tweets");
       return;
-    }
+    } 
+  }
 
-    //read tweets from file
-    let data = fs.readFileSync("timeline_parsed_tweets.json");
-    let timeline_tweets = JSON.parse(data);
-    
-    //get a tweet, pointer
-    let tweet = timeline_tweets.tweets[userPointers[indexPointer].pointer].text;
+  //get a tweet, pointer
+  let tweet = timeline_tweets.tweets[userPointers[indexPointer].pointer].text;
 
-    //update pointer for the specific user
-    if (userPointers[indexPointer].pointer++ >= timeline_tweets.tweets.length - 1) {
-      //if all tweets have been read. Update tweetslist for the user (run script)
-      //runscript
-      //set pointer to zero
-      userPointers[indexPointer].pointer = 0;
-    }
-    //status code 501 = this has not been implemented
-    //res.status(501).send("Not implemented");
+  //update pointer for the specific user
+  if (
+    userPointers[indexPointer].pointer++ >=
+    timeline_tweets.tweets.length - 1
+  ) {
+    //if all tweets have been read. Update tweettimeline for the user (run script)
+    updateTwitterTimeLine();
+    //set pointer to zero
+    userPointers[indexPointer].pointer = 0;
+  }
 
-    //send back the tweet
-    res.status(200).send(tweet);
+  //send back the tweet
+  res.status(200).send(tweet);
 });
 
 /**
  * Takes text as parameter in the request
  * Returns a phrase as answer to the request
  */
-app.get("/api/speech",authMiddleware, function(req, res) {
+app.get("/api/speech", authMiddleware, function(req, res) {
   if (!req.query.text) {
     //No query tag
-      res.status(422).send("Invalid request");
+    res.status(422).send("Invalid request");
   } else {
     //get text
     var text = req.query.text;
@@ -271,7 +288,6 @@ app.get("/api/logout", function(req, res) {
   req.logout();
   return res.send();
 });
-
 
 /*Setting up the URL: /api/user, sends user data to the front-end,
 middleware makes sure that the session is valid
@@ -327,10 +343,18 @@ app.listen(8080, () => {
 app.get("/", (req, res, next) => {
   res.sendFile("index.html", { root: publicRoot });
 });
-function runScript() {
+function searchForTweets() {
   return spawnSync("python", [
     "-u",
     path.join("", "twitter_search.py"),
+    "--foo",
+    "some value for foo"
+  ]);
+}
+function updateTwitterTimeLine() {
+  return spawnSync("python", [
+    "-u",
+    path.join("", "twitter_FollowUser.py"),
     "--foo",
     "some value for foo"
   ]);
