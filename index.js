@@ -118,6 +118,80 @@ app.get("/api/speech", function(req, res) {
   var text = req.query.text;
   console.log(text);
 
+  if(checkIfquestion(text)){
+		//var str = text;
+		if(text.toLowerCase().includes("hur mår")){
+			var answears = jsonQuery('Phrases[*type = AnswearWell].phrase',{
+				data:moods
+			}).value
+			var randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("hur lång")){
+			var answears = jsonQuery('Phrases[*type = AnswearTall].phrase',{
+				data:moods
+			}).value
+			var randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("vart kommer")){
+			var answears = jsonQuery('Phrases[*type = AnswearFrom].phrase',{
+				data:moods
+			}).value
+			var randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+		if(text.toLowerCase().includes("vad är du")){
+			var answears = jsonQuery('Phrases[*type = AnswearIs].phrase',{
+				data:moods
+			}).value
+			var randomNumber = Math.floor(Math.random() * answears.length);
+			console.log(answears[randomNumber]);
+      res.send(answears[randomNumber]);
+      return;
+		}
+
+	}
+	
+	if(text.toLowerCase().includes("hej") || text.toLowerCase().includes("hallå") || text.toLowerCase().includes("goddag")){
+		var answears = jsonQuery('Phrases[*type = Greeting].phrase',{
+			data:moods
+		}).value
+		var randomNumber = Math.floor(Math.random() * answears.length);
+		console.log(answears[randomNumber]);
+    res.send(answears[randomNumber]);
+    return;
+  }
+  
+	if(text.toLowerCase().includes("info")){
+		var answears = jsonQuery('Phrases[*type = info].phrase',{
+			data:moods
+		}).value
+		var randomNumber = Math.floor(Math.random() * answears.length);
+		console.log(answears[randomNumber]);
+    res.send(answears[randomNumber]);
+    return;
+	}
+	else{
+		var answears = jsonQuery('Phrases[*type = default].phrase',{
+			data:moods
+		}).value
+		var randomNumber = Math.floor(Math.random() * answears.length);
+    res.send(answears[randomNumber]);
+    return;
+	}
+
+
+
+
+
+  /*
   if (
     text.toLowerCase().includes("hej") ||
     text.toLowerCase().includes("tjena")
@@ -136,8 +210,18 @@ app.get("/api/speech", function(req, res) {
     res.send("Jag är ett så himla coolt träd.");
   } else {
     res.send("Jag förstår inte vad du menar med " + text);
-  }
+  }*/
 });
+
+function checkIfquestion(text){
+  var str = text;
+  if(str.toLowerCase().includes("hur mår") || str.toLowerCase().includes("hur lång") || str.toLowerCase().includes("vart kommer du") || str.toLowerCase().includes("vad är du")){
+    return true
+  } else {
+    return false
+  }
+}
+
 
 //Setting up the URL: /api/logout, expires cookie session
 app.get("/api/logout", function(req, res) {

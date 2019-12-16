@@ -206,37 +206,37 @@
 		},
 		{
 			"index": "35",
-			"type": "Answear",
+			"type": "AnswearWell",
 			"mood": "1",
 			"phrase": "Jag mår bra tackar som frågar"
 		},
 		{
 			"index": "36",
-			"type": "Answear",
+			"type": "AnswearWell",
 			"mood": "1",
 			"phrase": "Jag mår prima"
 		},
 		{
 			"index": "37",
-			"type": "Answear",
+			"type": "AnswearWell",
 			"mood": "1",
 			"phrase": "Jag mår bara fint fint"
 		},
 		{
 			"index": "38",
-			"type": "Answear",
+			"type": "AnswearTall",
 			"mood": "1",
 			"phrase": "Min mamma säger att jag kommer bli världens längsta träd"
 		},
 		{
 			"index": "39",
-			"type": "Answear",
+			"type": "AnswearFrom",
 			"mood": "1",
 			"phrase": "Jag kommer ifrån Sverige"
 		},
 		{
 			"index": "40",
-			"type": "Answear",
+			"type": "AnswearIs",
 			"mood": "1",
 			"phrase": "Jag är ett Intelligent träd"
 		},
