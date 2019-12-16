@@ -1,4 +1,11 @@
+/**
+ * @class recognition.js 
+ * @classdesc has control over the speech to text
+ * @constructor init the recognition and creating a speech object
+ * @version 1.0
+ */
 import Speech from "./speech.js";
+//Axios is used to send requests to server
 import axios from "axios";
 export default class SpeechToText {
   constructor() {
@@ -6,8 +13,12 @@ export default class SpeechToText {
     this.initRecognition();
     this.speech = new Speech();
   }
-  //Init the recognition software
   //Maybe we should add grammar for the recognition, change some weight-values regarding trees etc.?
+  /**
+   * Init the recognition software, the recognition variable
+   * If recognition exists in browser, an recognition object is created
+   * If not, sets the recognition-object to false
+   */
   initRecognition() {
     //Check if recognition is available, if not: set recognition to false
     this.recognition =
@@ -26,7 +37,12 @@ export default class SpeechToText {
       this.recognition.continuous = true;
     }
   }
+  /**
+   * Starts the recognition
+   * The tree starts listening to the user
+   * If recognition does not exists, the message will be: "SpeechRecognition är inte tillgängligt";
 
+   */
   listen() {
     if (this.recognition == false) {
       document.getElementById("message").innerHTML =
@@ -35,21 +51,13 @@ export default class SpeechToText {
     }
     //start the recognition
     this.recognition.start();
-    console.log("Recording started");
 
     //is called if a error occur
-    this.recognition.onerror = function() {
-      console.log("Error! Something went wrong.");
+    this.recognition.onerror = function(error) {
+      this.errors.push(error);
     };
-    //is called when recognition starts
-    this.recognition.onstart = function() {
-      console.log("Recognition activated. Start talking.");
-    };
-    //is called when the speech ends
-    this.recognition.onend = function() {
-      console.log("No voice. Recognition has stopped.");
-    };
-
+   
+    //reference to the speech object and speak function
     let speech = this.speech;
     function talk(text) {
       speech.speak(text);
@@ -62,6 +70,7 @@ export default class SpeechToText {
         transcript.toLowerCase().includes("#")) {        
         const words = transcript.split(" ");
         for (var i = 0; i <= words.length; i++) {
+          //send request to get tweet with tag
           if (words[i].includes("#")) {
             axios
               .get("/api/getTweetWithTag", {
@@ -74,11 +83,11 @@ export default class SpeechToText {
               })
               .catch(error => {
                 this.errors.push(error);
-                console.log(error);
               });
           }
         }
       } else {
+        //send request to /api/speech
         axios
           .get("/api/speech", {
             params: {
@@ -90,19 +99,19 @@ export default class SpeechToText {
           })
           .catch(error => {
             this.errors.push(error);
-            console.log(error);
           });
       }
       document.getElementById("message").innerHTML = transcript;
     };
   }
-  //stop the recognition manually
+  /**
+   * Stops the recognition
+   * If recognition does not work this function will just return
+   */
   stopSpeechRecognition = () => {
     if (this.recognition == false) {
-      console.log("Recognition does not work");
       return;
     }
     this.recognition.stop();
-    console.log("Recognition has stopped by user");
   };
 }

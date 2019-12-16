@@ -6,15 +6,25 @@
       "email": "user@email.com",
       "password": "password",
       "organization": "Ericsson",
-      "privilege": 2
+      "privilege": 2,
+      "follows": [
+        {
+          "twitter": "Ericssonsverige"
+        }
+      ]
     },
     {
-      "id": 1,
+      "id": 2,
       "username": "Intelligent_Universeum",
       "email": "user2@email.com",
       "password": "password",
       "organization": "Universeum",
-      "privilege": 1
+      "privilege": 1,
+      "follows": [
+        {
+          "twitter": "Ericssonsverige"
+        }
+      ]
     }
   ]
 }

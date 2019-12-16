@@ -17,6 +17,8 @@ and
 npm install json-query
 then enter the backend folder and write:
 npm install --save body-parser cookie-session express passport passport-local
+You also need to install Twython (used by the python-script)
+pip install twython
 
 ```
 ### To Compile the program

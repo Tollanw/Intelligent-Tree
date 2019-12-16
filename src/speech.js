@@ -1,3 +1,10 @@
+/**
+ * @class speech.js
+ * @class has control over the text to speech
+ * @constructor init the options for speech synthesis, get voice
+ * @version 1.0
+ */
+
 export default class TextToSpeech {
   constructor() {
     //options used for the speech synthesis
@@ -11,10 +18,11 @@ export default class TextToSpeech {
     this.getVoices();
   }
   
-  //get all the available voices
+  /**
+   * Get all the available voices
+   */
   getVoices = () => {
     this.available_voices = window.speechSynthesis.getVoices();
-    console.log(this.available_voices);
     let findVoice = this.findVoice;
     if (this.available_voices.length == 0) {
       window.speechSynthesis.addEventListener("voiceschanged", function() {
@@ -24,7 +32,9 @@ export default class TextToSpeech {
       findVoice();
     }
   };
-  //find a voice
+  /**
+   * Find all the available voices
+   */
   findVoice = () => {
     //choose swedish if possible
     let sve = this.available_voices.find(v => v.lang === "sv-SE");
@@ -32,8 +42,12 @@ export default class TextToSpeech {
     else this.options.voice = this.available_voices[0];
   };
 
-  //speak
-  //The text-parameter is the spoken input
+
+  /**
+   * Creates a SpeechSynthesisUtterance
+   * The parameter text is the spoken input
+   * @param {String} text
+   */
   speak = text => {
     let options = this.options;
     return new Promise((resolve, reject) => {

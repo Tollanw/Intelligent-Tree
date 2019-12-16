@@ -1,6 +1,16 @@
 {
-    "screen_name" : "elajjaz",  
-    "tweet_mode" : "extended",
-    "count" : 25, 
-    "exclude_replies" : "true"
+    "users": [
+        {
+            "screen_name": "Ericssonsverige",
+            "tweet_mode": "extended",
+            "count": 15,
+            "exclude_replies": "true"
+        },
+        {
+            "screen_name": "Elajjaz",
+            "tweet_mode": "extended",
+            "count": 15,
+            "exclude_replies": "true"
+        }
+    ]
 }

@@ -21,6 +21,9 @@ export default {
     },
 
   methods:  {
+    /**
+     * Starts the recording
+     */
     startRecording(){
           if(this.isRecording == false){
               this.isRecording = true;
@@ -30,6 +33,9 @@ export default {
           }
          
     },
+    /**
+     * Stops the recording
+     */
     stopRecording(){
         if(this.isRecording == true){
             this.isRecording = false;
