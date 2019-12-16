@@ -145,6 +145,8 @@ app.get("/api/setTwitterInfo", authMiddleware, function(req, res) {
     let tweets = JSON.parse(data);
     res.status(200).json(tweets);
     //Twitter search .json
+    //Run script and update twitterlist
+    //send back the updated parsed twitter list
   }
 });
 /**
@@ -156,10 +158,14 @@ app.get("/api/setTwitterInfo", authMiddleware, function(req, res) {
  * @requires twitter_parsed
  * @requires fs
  */
-app.get("/api/getTweetWithTag", authMiddleware, function(req, res) {
+app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
+  if (req.session._ctx.user.privilege < 2) {
+    res.status(403).send("Not authorized");
+    return;
+  }
   if (!req.query.tag) {
     //No query tag
-    res.status(422).send("Invalid request");
+      res.status(422).send("Invalid request");
   } else {
     //check the cookie. får personen göra detta?
 
@@ -296,7 +302,6 @@ app.get("/api/user", authMiddleware, (req, res) => {
   let user = users.find(user => {
     return user.id === req.session.passport.user;
   });
-
   console.log([user, req.session]);
 
   res.send({ user: user });
