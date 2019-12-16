@@ -8,25 +8,30 @@ def twitter_search(i):
     #Loads the Auth json file VERY crucial.
     with open("twitter_Auth.json", "r") as auth:
         data = json.load(auth)
-        followUser(data,i)
+        Account = "Elajjaz"
+        followUser(data,i,Account)
 
-def followUser(creds, i):
+def followUser(creds, i, Account):
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
     with open("twitter_timeline.json", "r") as file:
         timeline = json.load(file)
+
+    with open("timeline_parsed_tweets.json", "r") as reader:
+        data = json.load(reader)
+        data['tweets'][0][Account] = []
+        
+        
     with open("timeline_parsed_tweets.json", "w") as write:
-        output = {}
-        output['tweets'] = []
         for status in python_tweets.get_user_timeline(screen_name = timeline["users"][i]["screen_name"],
             tweet_mode = timeline["users"][i]["tweet_mode"], count = timeline["users"][i]["count"],
             exclude_replies = timeline["users"][i]["exclude_replies"]):
             if not forbiddenTweet(status["full_text"]):
-                output['tweets'].append({
+                data['tweets'][0][Account].append({
                     'user' : status['user']['screen_name'],
                     'date' : status['created_at'],
                     'text' : filterString(status["full_text"])
                 })
-        json.dump(output, write)
+        json.dump(data, write)
 
 #Filter Section of code            
 def filterString(text):
@@ -55,5 +60,5 @@ def forbiddenTweet(text):
     return forbiddenTweet
 
 #Run section
-i = 1
+i = 0
 twitter_search(i)
