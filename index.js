@@ -354,7 +354,7 @@ app.get("/", (req, res, next) => {
 
 //Method to run the python code to update the tweet list.
 function runScript(id, follow){
-    return spawn('python', [
+    return spawnSync('python', [
       "-u", 
       path.join("", 'twitter_search.py'),
       "--foo", id, follow
