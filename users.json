@@ -8,9 +8,8 @@
       "organization": "Ericsson",
       "privilege": 2,
       "follows": [
-        {
-          "twitter": "Ericssonsverige"
-        }
+        "Ericssonsverige",
+        "Google"
       ]
     },
     {
@@ -21,9 +20,7 @@
       "organization": "Universeum",
       "privilege": 1,
       "follows": [
-        {
-          "twitter": "Ericssonsverige"
-        }
+          "Ericssonsverige"
       ]
     }
   ]

@@ -227,7 +227,7 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   }
 
   //get a tweet, pointer
-  let tweet = timeline_tweets.tweets[userPointers[indexPointer].pointer].text;
+  let tweet = timeline_tweets.tweets[0][userPointers[indexPointer].name][userPointers[indexPointer].pointer].text;
 
   //update pointer for the specific user
   if (
@@ -241,6 +241,7 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   }
 
   //send back the tweet
+  console.log(tweet)
   res.status(200).send(tweet);
 });
 
@@ -354,7 +355,7 @@ app.get("/", (req, res, next) => {
 
 //Method to run the python code to update the tweet list.
 function runScript(id, follow){
-    return spawn('python', [
+    return spawnSync('python', [
       "-u", 
       path.join("", 'twitter_search.py'),
       "--foo", id, follow
