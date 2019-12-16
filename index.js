@@ -34,15 +34,6 @@ const { spawnSync } = require("child_process");
 let userDB = fs.readFileSync("users.json");
 let users = JSON.parse(userDB).users;
 
-/**
- * Pointer for the tweet-reading, each user has a pointer
- */
-let userPointers = [];
-for (var i = 0; i < users.length; i++) {
-  userPointers[i] = { id: users[i].id, name: users[i].username, pointer: 0 };
-}
-console.log(userPointers);
-
 //initialize body parser
 app.use(bodyParser.json());
 //initialize cookie session
@@ -184,68 +175,16 @@ app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
     if (tweets.tweets.length < 1) {
       res.status(204).send("Hittade ingen tweets med hashtag " + tag);
     } else {
-      res.send(tweets.tweets[0].text);
+      //random tweet in tweetlist
+      res.send(tweets.tweets[Math.floor(Math.random() * tweets.tweets.length)].text);
+      //res.send(tweets.tweets[0].text);
     }
   }
 });
 /**
- * @todo Id under development
  * @requires timeline_parsed_tweets
  * Returns a tweet in the response
  */
-
-/*
-app.get("/api/getTweet", authMiddleware, function(req, res) {
-  var user = req.user;
-  var reqUserId = req.user.id;
-  var indexPointer = null;
-  for (var i = 0; i < userPointers.length; i++) {
-    if (userPointers[i].id == reqUserId) {
-      indexPointer = i;
-    }
-  }
-  if (indexPointer == null) {
-    //Request user id don't match userPointers db.
-    //TODO - try to update pointers. Get users, see if a new user has been added.
-    res.status(403).send("No tweets-pointer found for this user.");
-    return;
-  }
-
-  //read tweets from file
-
-  let data = fs.readFileSync("timeline_parsed_tweets.json");
-  let timeline_tweets = JSON.parse(data);
-  if (timeline_tweets.tweets.length<1) {
-    console.log("hej");
-    //try to update twittertimeline
-    runScript(user.id, "follow");
-    //reset pointer
-    userPointers[indexPointer].pointer = 0;
-    //reread the file
-    data = fs.readFileSync("timeline_parsed_tweets.json");
-    timeline_tweets = JSON.parse(data);
-    if(timeline_tweets.tweets.length<1) {
-      res.status(403).send("Cannot find any tweets");
-      return;
-    } 
-  }
-
-  //get a tweet, pointer
-  let tweet = timeline_tweets.tweets[0][user.username][userPointers[indexPointer].pointer].text;
-
-  //update pointer for the specific user
-  if (userPointers[indexPointer].pointer++ >= timeline_tweets.tweets[0][user.username].length - 1) {
-    //if all tweets have been read. Update tweettimeline for the user (run script)
-    runScript(userPointers[indexPointer].id, "follow");
-    //set pointer to zero
-    userPointers[indexPointer].pointer = 0;
-  }
-
-  //send back the tweet
-  console.log(tweet)
-  res.status(200).send(tweet);
-});
-*/
 app.get("/api/getTweet", authMiddleware, function (req, res) {
   //check the cookie, who?
   let cookies = cookie.parse(req.headers.cookie);
@@ -292,7 +231,6 @@ app.get("/api/getTweet", authMiddleware, function (req, res) {
  * Takes text as parameter in the request
  * Returns a phrase as answer to the request
  */
-
 app.get("/api/speech", function(req, res) {
   var text = req.query.text;
   console.log(text);
@@ -367,10 +305,6 @@ app.get("/api/speech", function(req, res) {
     res.send(answears[randomNumber]);
     return;
 	}
-
-
-
-
 
   /*
   if (
