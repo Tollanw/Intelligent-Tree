@@ -28,7 +28,6 @@ const twitter_search = require("./twitter_search.json");
 //For running python
 const path = require("path");
 const { spawnSync } = require("child_process");
-const { spawn } = require("child_process");
 
 //user database
 let userDB = fs.readFileSync("users.json");
@@ -194,6 +193,7 @@ app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
  * Returns a tweet in the response
  */
 app.get("/api/getTweet", authMiddleware, function(req, res) {
+  var user = req.user;
   var reqUserId = req.user.id;
   var indexPointer = null;
   for (var i = 0; i < userPointers.length; i++) {
@@ -213,8 +213,9 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   let data = fs.readFileSync("timeline_parsed_tweets.json");
   let timeline_tweets = JSON.parse(data);
   if (timeline_tweets.tweets.length<1) {
+    console.log("hej");
     //try to update twittertimeline
-    runScript(userPointers[indexPointer].id, "follow");
+    runScript(user.id, "follow");
     //reset pointer
     userPointers[indexPointer].pointer = 0;
     //reread the file
@@ -227,13 +228,10 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   }
 
   //get a tweet, pointer
-  let tweet = timeline_tweets.tweets[userPointers[indexPointer].pointer].text;
+  let tweet = timeline_tweets.tweets[0][user.username][userPointers[indexPointer].pointer].text;
 
   //update pointer for the specific user
-  if (
-    userPointers[indexPointer].pointer++ >=
-    timeline_tweets.tweets.length - 1
-  ) {
+  if (userPointers[indexPointer].pointer++ >= timeline_tweets.tweets[0][user.username].length - 1) {
     //if all tweets have been read. Update tweettimeline for the user (run script)
     runScript(userPointers[indexPointer].id, "follow");
     //set pointer to zero
@@ -241,6 +239,7 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
   }
 
   //send back the tweet
+  console.log(tweet)
   res.status(200).send(tweet);
 });
 

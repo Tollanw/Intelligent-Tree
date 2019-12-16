@@ -24,9 +24,16 @@ def twitter_search():
         if sys.argv[3] == "follow":
             with open("users.json", "r") as users:
                 userData = json.load(users)
-                account = userData["follows"][sys.argv[2]]
-                for user in account:
-                    followUser(data,user)
+                account = None
+                #account = userData["users"][int(sys.argv[2])]["follows"]  
+                for i in userData["users"]:
+                    if i["id"] == int(sys.argv[2]):
+                        account = i
+                        break  
+                if account is not None:   
+                    followUser(data,account)
+                else:
+                    return
         else:
              get_tweets(data)
         
@@ -52,23 +59,25 @@ def get_tweets(creds):
 
         json.dump(output,file)
 
-def followUser(creds,user):
+def followUser(creds,account):
     python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'])
+
     with open("timeline_parsed_tweets.json", "r") as reader:
         data = json.load(reader)
-        data['tweets'][0][user] = []
+        data['tweets'][0][account["username"]] = []
         
         
     with open("timeline_parsed_tweets.json", "w") as write:
-        for status in python_tweets.get_user_timeline(screen_name = user,
-            tweet_mode = "extended", count = 5,
-            exclude_replies = "true"):
-            if not forbiddenTweet(status["full_text"]):
-                data['tweets'][0][user].append({
-                    'user' : status['user']['screen_name'],
-                    'date' : status['created_at'],
-                    'text' : filterString(status["full_text"])
-                })
+        for user in account["follows"]:
+            for status in python_tweets.get_user_timeline(screen_name = user,
+                tweet_mode = "extended", count = 5,
+                exclude_replies = "true"):
+                if not forbiddenTweet(status["full_text"]):
+                    data['tweets'][0][account["username"]].append({
+                        'user' : status['user']['screen_name'],
+                        'date' : status['created_at'],
+                        'text' : filterString(status["full_text"])
+                    })
         json.dump(data, write)
 
 #Filter Section of code            
