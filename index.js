@@ -9,6 +9,7 @@ const app = express();
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const cookie = require("cookie");
 //root to application
 const publicRoot = "dist"; //change to relative path
 app.use(express.static(publicRoot));
@@ -46,7 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Pointer for the tweetreading
-var pointer = { Value: 0 };
+//var pointer = { Value: 0 };
 
 //mock "database" of users
 /*
@@ -121,7 +122,7 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
     var filter = req.query.filter;
     var keyword = req.query.keyword;
     //change the value in the in-memory object
-
+    /*
     //update twitter_search
     if (!(filter.length < 2 || keyword < 2)) {
       twitter_search.q = keyword;
@@ -130,7 +131,7 @@ app.get("/api/setTwitterInfo",authMiddleware, function(req, res) {
       fs.writeFileSync("twitter_search.json", JSON.stringify(twitter_search));
       //reset the twitter_parsed pointer
       pointer.Value = 0;
-    }
+    }*/
 
     const subprocess = runScript();
 
@@ -173,16 +174,22 @@ app.get("/api/getTweetWithTag",authMiddleware, function(req, res) {
 
 app.get("/api/getTweet",authMiddleware, function(req,res){
     //check the cookie, who?
-
-  
+    let cookies = cookie.parse(req.headers.cookie);
+    let phrasePointer = cookies.phrasePointer;
+    console.log(phrasePointer);
     //read tweets from file
     let data = fs.readFileSync("tweets_parsed.json");
     let tweets = JSON.parse(data);
-    //send back a tweet
-    res.status(501).send(tweets.tweets[pointer.Value].text);
-    if (pointer.Value++ >= tweets.tweets.length - 1) {
-      pointer.Value = 0;
+    phrasePointer++;
+    /*
+    if (phrasePointer++ >= tweets.tweets.length - 1) {
+        phrasePointer = 0;
     }
+    */
+    //send back a tweet
+    res.setHeader('Set-Cookie', 'phrasePointer=' + phrasePointer);
+    res.status(501).send(tweets.tweets[phrasePointer].text);
+    
   
 });
 
@@ -204,11 +211,7 @@ app.get("/api/speech",authMiddleware, function(req, res) {
       //read tweets from file
       let data = fs.readFileSync("tweets_parsed.json");
       let tweets = JSON.parse(data);
-      //send back a tweet
-      res.send(tweets.tweets[pointer.Value].text);
-      if (pointer.Value++ >= tweets.tweets.length - 1) {
-        pointer.Value = 0;
-      }
+
     } else if (
       text.toLowerCase().includes("hej") ||
       text.toLowerCase().includes("tjena")
@@ -247,9 +250,11 @@ app.get("/api/user", authMiddleware, (req, res) => {
   let user = users.find(user => {
     return user.id === req.session.passport.user;
   });
+    //console.log(req.session._ctx.user);
+    
 
-  console.log([user, req.session]);
-
+  //console.log([user, req.session]);
+    res.setHeader('Set-Cookie', 'phrasePointer=1');
   res.send({ user: user });
 });
 //specifying how passport.js will log us in, triggered by passport.authenticate called by login
