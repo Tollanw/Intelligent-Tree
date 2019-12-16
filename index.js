@@ -9,6 +9,7 @@ const app = express();
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const cookie = require("cookie");
 //root to application
 const publicRoot = "dist"; //change to relative path
 app.use(express.static(publicRoot));
@@ -129,7 +130,7 @@ app.get("/api/setTwitterInfo", authMiddleware, function(req, res) {
     var filter = req.query.filter;
     var keyword = req.query.keyword;
     //change the value in the in-memory object
-
+    
     //update twitter_search
     if (!(filter.length < 2 || keyword < 2)) {
       twitter_search.q = keyword;
@@ -192,6 +193,8 @@ app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
  * @requires timeline_parsed_tweets
  * Returns a tweet in the response
  */
+
+/*
 app.get("/api/getTweet", authMiddleware, function(req, res) {
   var user = req.user;
   var reqUserId = req.user.id;
@@ -240,6 +243,46 @@ app.get("/api/getTweet", authMiddleware, function(req, res) {
 
   //send back the tweet
   console.log(tweet)
+  res.status(200).send(tweet);
+});
+*/
+app.get("/api/getTweet", authMiddleware, function (req, res) {
+  //check the cookie, who?
+  let cookies = cookie.parse(req.headers.cookie);
+  let phrasePointer = cookies.phrasePointer;
+  console.log(phrasePointer);
+  var user = req.user;
+  //read tweets from file
+
+  let data = fs.readFileSync("timeline_parsed_tweets.json");
+  let timeline_tweets = JSON.parse(data);
+  if (timeline_tweets.tweets.length < 1) {
+    //try to update twittertimeline
+    runScript(user.id, "follow");
+    //reset pointer
+    phrasePointer = 0;
+    data = fs.readFileSync("timeline_parsed_tweets.json");
+    timeline_tweets = JSON.parse(data);
+      if (timeline_tweets.tweets.length < 1) {
+        res.status(403).send("Cannot find any tweets");
+          return;
+      }
+  }
+
+  //get a tweet, pointer
+  let tweet = timeline_tweets.tweets[0][user.username][phrasePointer].text;
+  //update pointer for the specific user
+  if (
+    phrasePointer++ >=
+    timeline_tweets.tweets[0][user.username].length - 1
+    ) {
+      //if all tweets have been read. Update tweettimeline for the user (run script)
+      runScript(user.id, "follow");
+      //set pointer to zero
+      phrasePointer = 0;
+      }
+  //send back the tweet
+  res.setHeader('Set-Cookie', 'phrasePointer=' + phrasePointer);
   res.status(200).send(tweet);
 });
 
@@ -372,8 +415,11 @@ app.get("/api/user", authMiddleware, (req, res) => {
   let user = users.find(user => {
     return user.id === req.session.passport.user;
   });
-  console.log([user, req.session]);
+    //console.log(req.session._ctx.user);
+    
 
+  //console.log([user, req.session]);
+    res.setHeader('Set-Cookie', 'phrasePointer=0');
   res.send({ user: user });
 });
 //specifying how passport.js will log us in, triggered by passport.authenticate called by login
@@ -428,4 +474,4 @@ function runScript(id, follow){
       path.join("", 'twitter_search.py'),
       "--foo", id, follow
     ]);
-  }
+}
