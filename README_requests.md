@@ -23,7 +23,7 @@ Takes two parameters in body:
 - keyword (represent a hashtag or a word)
 Returns the new list with parsed tweets. 
 
-Example: http://localhost:8080/api/setTwitterInfo?filter=recent&keyword=#ericsson
+Example: http://localhost:8080/api/setTwitterInfo?filter=recent&keyword=ericsson
 ```
 
 ### Request: /api/twitterdata (deprecated)
@@ -54,7 +54,8 @@ To use this get-request you need privilege 2 or more.
 Takes one parameter in body:
 - tag (represent the specific word or hashtag the user is asking for)
 
-Example: http://localhost:8080/api/getTweetWithTag?tag=ericsson
+Example: http://localhost:8080/api/getTweetWithTag?tag=%23ericsson
+To use hashtag ('#') in the http-request you need to use the encoded pound symbol '%23'
 ```
 
 
