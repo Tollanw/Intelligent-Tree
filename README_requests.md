@@ -70,7 +70,12 @@ Example: http://localhost:8080/api/getTweet
 
 ### Request: /api/speech (under development)
 ```
-Returns a valid answer two a information question about the tree. 
+Takes text as parameter. Text should be a string.
+Returns a valid answer for the input
+The returnvalue is a string and can be:
+  - A joke
+  - Information about the tree
+  - Greeting
+  - And more
 You need to be logged in to use this request. 
-Can also returns jokes and more….
 ```
