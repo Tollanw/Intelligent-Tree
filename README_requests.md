@@ -9,6 +9,8 @@ A session last for 24 hours.
 Takes two parameters:
 - email (email-address)
 - password (the password)
+
+Example: http://localhost:8080/api/login?email=user@email.com&password=password
 ```
 
 
@@ -56,20 +58,24 @@ Example: http://localhost:8080/api/getTweetWithTag?tag=ericsson
 ```
 
 
-### Request: /api/getTweet (under development)
+### Request: /api/getTweet
 ```
 A get Request. 
 You need to be logged in to use this request. 
 Returns the next tweet on the tweet-list. 
-The return value depends on the logged in user. 
+The return value depends on the logged in user.
+User1 follows the following twitter-accounts:
+  - "Ericssonsverige", "nyteknik" and "RISEsweden"
+User2 follows the following twitter-accounts:
+  - "Ericssonsverige" and "dagensindustri"
+
 
 Example: http://localhost:8080/api/getTweet
 ```
 
-
-
-### Request: /api/speech (under development)
+### Request: /api/speech
 ```
+A get request
 Takes text as parameter. Text should be a string.
 Returns a valid answer for the input
 The returnvalue is a string and can be:
@@ -78,4 +84,6 @@ The returnvalue is a string and can be:
   - Greeting
   - And more
 You need to be logged in to use this request. 
+
+Example: http://localhost:8080/api/speech?text=hej hur mår du
 ```
