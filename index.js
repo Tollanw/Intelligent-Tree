@@ -193,8 +193,8 @@ app.get("/api/getTweet", authMiddleware, function (req, res) {
     phrasePointer=0;
   }
   var user = req.user;
+  
   //read tweets from file
-
   let data = fs.readFileSync("timeline_parsed_tweets.json");
   let timeline_tweets = JSON.parse(data);
   if (timeline_tweets.tweets.length < 1) {
@@ -208,6 +208,16 @@ app.get("/api/getTweet", authMiddleware, function (req, res) {
         res.status(403).send("Cannot find any tweets");
           return;
       }
+      else {
+        if(timeline_tweets.tweets[0][user.username].length < 0) {
+          res.status(403).send("Cannot find any tweets for the following accounts: " + user.follows);
+          return;
+        }
+      }
+      
+  }
+  if(timeline_tweets.tweets[0][user.username].length < phrasePointer) {
+    phrasePointer=0;
   }
 
   //get a tweet, pointer
@@ -298,34 +308,14 @@ app.get("/api/speech", function(req, res) {
     return;
 	}
 	else{
-		answears = jsonQuery('Phrases[*type = default].phrase',{
+		answears = jsonQuery('Phrases[*type = Default].phrase',{
 			data:moods
-		}).value
+    }).value
 		randomNumber = Math.floor(Math.random() * answears.length);
     res.send(answears[randomNumber]);
     return;
 	}
 
-  /*
-  if (
-    text.toLowerCase().includes("hej") ||
-    text.toLowerCase().includes("tjena")
-  ) {
-    res.send("Tjena kompis");
-  } else if (text.toLowerCase().includes("mamma")) {
-    res.send(
-      "Visste du att min mamma har sagt att jag kommer bli längre än ett hus en dag."
-    );
-  } else if (text.toLowerCase() === "hur lång är du") {
-    res.send("Jag vet inte, men jag tror jag är över 30 meter.");
-  } else if (
-    text.toLowerCase().includes("träd") ||
-    text.toLowerCase().includes("cool")
-  ) {
-    res.send("Jag är ett så himla coolt träd.");
-  } else {
-    res.send("Jag förstår inte vad du menar med " + text);
-  }*/
 });
 
 function checkIfquestion(text){
@@ -351,7 +341,7 @@ app.get("/api/user", authMiddleware, (req, res) => {
   let user = users.find(user => {
     return user.id === req.session.passport.user;
   });
-    //console.log(req.session._ctx.user);
+    //console.log(req.session._ctx);
     
 
   //console.log([user, req.session]);
@@ -397,7 +387,7 @@ app.listen(8080, () => {
   console.log("Example app listening on port 8080");
 });
 // add route to the root of our application
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   res.sendFile("index.html", { root: publicRoot });
 });
 
