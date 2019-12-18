@@ -2,7 +2,7 @@ README_requests
 --------------------------------------
 
 ### Request: /api/login
-
+...
 A post request for login.
 Need to be called by creating a session before using the other requests.
 A session last for 24 hours.  
