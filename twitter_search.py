@@ -85,23 +85,24 @@ def filterString(text):
     #Replaces the links and symbols to a more suitable string.
     text = re.sub(r"http\S+", "", text)
     text = re.sub(r"url\S+", "", text)
-    text = re.sub(r"@", "at ", text)
-    text = re.sub(r"#", "hashtag ", text)
+    text = re.sub(r"@", "", text)
+    text = re.sub(r"#", "", text)
+    text = re.sub(r"RT", "", text)
     return text
 
 def forbiddenTweet(text):
-    with open("DummyFile.json", "r") as filterFile:
+    with open("swearWords.json", "r") as filterFile:
         data = json.load(filterFile)
         i = 0
         String = filterString(text.lower()).split(" ")
-        lastElement = len(data["Phrase"])
+        lastElement = len(data["blacklist"])
         #print(String)
         forbiddenTweet = False
         while True:
             if lastElement == i:
                 break
             for word in String:
-                if word == (data["Phrase"][i]["text"]):
+                if word == (data["blacklist"][i]["text"]):
                     forbiddenTweet = True
             i += 1
     return forbiddenTweet

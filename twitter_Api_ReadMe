@@ -1,6 +1,0 @@
-En python API behövs med namnet "Twython"
-Kan använda pip-packages plugin för att installera
-Först installera pip
-sen i terminalen "pip instsall twython"
-Kan få några problem om inte terminalen körs med admin permission.
-Måste hämta express Modulen ($ npm install express)
