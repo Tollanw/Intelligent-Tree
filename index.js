@@ -242,9 +242,12 @@ app.get("/api/getTweet", authMiddleware, function (req, res) {
  * Returns a phrase as answer to the request
  */
 app.get("/api/speech", function(req, res) {
-  var text = req.query.text;
-  console.log(text);
 
+  if(!req.query.text) {
+    res.status(422).send("Error");
+    return;
+  }
+  var text = req.query.text;
   var randomNumber;
   var answears;
   if(checkIfquestion(text)){
