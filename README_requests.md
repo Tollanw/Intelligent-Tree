@@ -14,7 +14,7 @@ Example: http://localhost:8080/api/login?email=user@email.com&password=password
 ```
 
 
-### Request: /api/setTwitterInfo
+### Request: /api/setTwitterInfo (deprecated)
 ```
 Used for the setting the twitter_search.json. 
 You need to be logged in to use this request. 
@@ -26,7 +26,7 @@ Returns the new list with parsed tweets.
 Example: http://localhost:8080/api/setTwitterInfo?filter=recent&keyword=#ericsson
 ```
 
-### Request: /api/twitterdata
+### Request: /api/twitterdata (deprecated)
 ```
 Returns a the list with all the parsed tweets. 
 You need to be logged in to use this request. 
