@@ -170,10 +170,15 @@ app.get("/api/getTweetWithTag", authMiddleware, function (req, res) {
 
     //get new tweet
     let data = fs.readFileSync("tweets_parsed.json");
+    if(IsJsonString(data)==false) {
+      res.send("Hittade ingen tweets med hashtaggen");
+      return;
+    }
+
     let tweets = JSON.parse(data);
     //send back tweet to frontend
     if (tweets.tweets.length < 1) {
-      res.status(204).send("Hittade ingen tweets med hashtag " + tag);
+      res.send("Hittade ingen tweets med hashtaggen");
     } else {
       //random tweet in tweetlist
       res.send(tweets.tweets[Math.floor(Math.random() * tweets.tweets.length)].text);
@@ -394,8 +399,6 @@ app.get("/", (req, res) => {
   res.sendFile("index.html", { root: publicRoot });
 });
 
-
-
 //Method to run the python code to update the tweet list.
 function runScript(id, follow){
     return spawnSync('python', [
@@ -403,4 +406,13 @@ function runScript(id, follow){
       path.join("", 'twitter_search.py'),
       "--foo", id, follow
     ]);
+}
+
+function IsJsonString(string) {
+  try {
+      JSON.parse(string);
+  } catch (error) {
+      return false;
+  }
+  return true;
 }
